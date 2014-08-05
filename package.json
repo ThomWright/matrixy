@@ -1,0 +1,41 @@
+{
+  "name": "matrixy",
+  "version": "0.0.0",
+  "description": "A general-purpose matrix library capable of LU-decomposition and solving equations of the form Ax=b.",
+  "main": "src/matrix.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies"    : {
+    "amdefine"      : ">=0.1",
+    "chai"          : "~1.9"
+  },
+  "devDependencies" : {
+    "mocha"         : "~1.17",
+    "chai"          : "~1.9",
+    "chai-stats"    : "~0.3",
+    "coffee-script" : "~1.7",
+    "coffeelint"    : "~1.3"
+  },
+  "scripts": {
+    "prepublish"    : "cake build",
+    "pretest"       : "coffeelint src/*",
+    "test": "cake test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ThomWright/matrixy"
+  },
+  "keywords": [
+    "matrix",
+    "matrices",
+    "LU",
+    "decomposition"
+  ],
+  "author": "Thom Wright",
+  "license": "MIT",
+  "bugs": {
+    "url": "http://github.com/ThomWright/matrixy/issues"
+  },
+  "homepage": "http://github.com/ThomWright/matrixy"
+}
