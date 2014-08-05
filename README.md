@@ -9,3 +9,4 @@ A general-purpose matrix library for NodeJS and the browser capable of LU-decomp
 - Consider an immutable matrix
 - Review API
 - Write docs
+- Publish to NPM
