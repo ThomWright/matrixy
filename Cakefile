@@ -12,8 +12,8 @@ launch = (cmd, options = [], callback) ->
 build = ({watch, callback} = {}) ->
   watch ?= false
   options = [
-    '-c'
-    '-b'
+    '--compile'
+    '--bare' # Compile the JavaScript without the top-level function safety wrapper
     '--output', 'lib'
     'src'
     ]
