@@ -39,26 +39,31 @@ describe 'Matrix', ->
       expect(m1.isSquare() ).to.be.false
 
   describe 'isLowerTriangular()', ->
-    threeLowerTriangularMatrix = new Matrix([[1, 0, 0]
-                                             [1, 3, 0]
-                                             [7, 5, 9]])
-    threeAlmostLowerTriangularMatrix = new Matrix([[1, 0, 1]
-                                                   [1, 3, 0]
-                                                   [7, 5, 9]])
-    rectangularUpperTriangularMatrix = new Matrix([[1, 0, 0, 0]
-                                                   [5, 8, 0, 0]])
     it 'should return no for empty matrix', ->
       expect(emptyMatrix.isLowerTriangular()).to.equal no
     it 'should return no for one by one matrix', ->
       expect(oneMatrix.isLowerTriangular()).to.equal yes
     it 'should return yes for a three by three L matrix', ->
+      threeLowerTriangularMatrix = new Matrix([[1, 0, 0]
+                                               [1, 3, 0]
+                                               [7, 5, 9]])
       expect(threeLowerTriangularMatrix.isLowerTriangular()).to.equal yes
     it 'should return no for an almost three by three L matrix', ->
-      threeAlmostLowerTriangularMatrix = threeLowerTriangularMatrix.copy()
-      threeAlmostLowerTriangularMatrix.set(0, 2).plusEquals(1)
+      threeAlmostLowerTriangularMatrix = new Matrix([[1, 0, 1]
+                                                     [1, 3, 0]
+                                                     [7, 5, 9]])
       expect(threeAlmostLowerTriangularMatrix.isLowerTriangular()).to.equal no
     it 'should return yes for rectangular upper triangular matrix', ->
+      rectangularUpperTriangularMatrix = new Matrix([[1, 0, 0, 0]
+                                                     [5, 8, 0, 0]])
       expect(rectangularUpperTriangularMatrix.isLowerTriangular()).to.equal yes
+    it 'should return yes for single column matrix', ->
+      singleColumnMatrix = new Matrix([[1]
+                                       [2]])
+      expect(singleColumnMatrix.isLowerTriangular()).to.equal yes
+    it 'should return no for single row matrix of all non-zero values', ->
+      singleRowMatrix = new Matrix([[5, 6, 9]])
+      expect(singleRowMatrix.isLowerTriangular()).to.equal no
 
   describe 'createIdentityMatrix()', ->
     it 'should create an identity matrix', ->

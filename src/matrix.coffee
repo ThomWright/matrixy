@@ -131,12 +131,14 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
     isSquare: ->
       @getNumOfRows() is @getNumOfColumns()
 
+    # @return (boolean)
     isLowerTriangular: ->
       [numOfRows, numOfColumns] = @getDimensions()
       return no if numOfRows == 0 or numOfColumns == 0
+      return yes if numOfColumns == 1
 
-      for i in [0...(numOfRows - 1)] when numOfColumns != 1
-        for j in [(i + 1)...numOfColumns] when i < numOfRows
+      for i in [0...numOfRows]
+        for j in [(i + 1)...numOfColumns]
           return no if @_m[i][j] != 0
       return yes
 
