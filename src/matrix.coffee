@@ -13,8 +13,6 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
         newMatrix[rowIndex].push(c)
     return newMatrix
 
-
-
   # Represents a Matrix
   class Matrix
 
