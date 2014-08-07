@@ -13,6 +13,8 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
         newMatrix[rowIndex].push(c)
     return newMatrix
 
+
+
   # Represents a Matrix
   class Matrix
 
@@ -130,6 +132,15 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
     # @return (boolean)
     isSquare: ->
       @getNumOfRows() is @getNumOfColumns()
+
+    isLowerTriangular: ->
+      [numOfRows, numOfColumns] = @getDimensions()
+      return no if numOfRows == 0 or numOfColumns == 0
+
+      for i in [0...(numOfRows - 1)] when numOfColumns != 1
+        for j in [(i + 1)...numOfColumns] when i < numOfRows
+          return no if @_m[i][j] != 0
+      return yes
 
     # Decompose this matrix into lower and upper triangular matrices.
     # @throws SingularMatrixException

@@ -1,6 +1,7 @@
 Matrix = require '../src/matrix'
 
 emptyMatrix = new Matrix()
+oneMatrix = new Matrix([[3]])
 m1 = new Matrix([[1, 2, 3]
                  [4, 5, 6]])
 m2 = new Matrix([[ 7, 8]
@@ -36,6 +37,28 @@ describe 'Matrix', ->
       expect(squareMatrix.isSquare() ).to.be.true
     it 'should return false if the matrix isn\'t square', ->
       expect(m1.isSquare() ).to.be.false
+
+  describe 'isLowerTriangular()', ->
+    threeLowerTriangularMatrix = new Matrix([[1, 0, 0]
+                                             [1, 3, 0]
+                                             [7, 5, 9]])
+    threeAlmostLowerTriangularMatrix = new Matrix([[1, 0, 1]
+                                                   [1, 3, 0]
+                                                   [7, 5, 9]])
+    rectangularUpperTriangularMatrix = new Matrix([[1, 0, 0, 0]
+                                                   [5, 8, 0, 0]])
+    it 'should return no for empty matrix', ->
+      expect(emptyMatrix.isLowerTriangular()).to.equal no
+    it 'should return no for one by one matrix', ->
+      expect(oneMatrix.isLowerTriangular()).to.equal yes
+    it 'should return yes for a three by three L matrix', ->
+      expect(threeLowerTriangularMatrix.isLowerTriangular()).to.equal yes
+    it 'should return no for an almost three by three L matrix', ->
+      threeAlmostLowerTriangularMatrix = threeLowerTriangularMatrix.copy()
+      threeAlmostLowerTriangularMatrix.set(0, 2).plusEquals(1)
+      expect(threeAlmostLowerTriangularMatrix.isLowerTriangular()).to.equal no
+    it 'should return yes for rectangular upper triangular matrix', ->
+      expect(rectangularUpperTriangularMatrix.isLowerTriangular()).to.equal yes
 
   describe 'createIdentityMatrix()', ->
     it 'should create an identity matrix', ->
