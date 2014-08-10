@@ -142,6 +142,16 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
           return no if @_m[i][j] isnt 0
       return yes
 
+    isUpperTriangular: ->
+      [numOfRows, numOfColumns] = @getDimensions()
+      return no if numOfRows is 0 or numOfColumns is 0
+      return yes if numOfRows is 1
+
+      for i in [0...numOfColumns]
+        for j in [(i + 1)...numOfRows]
+          return no if @_m[j][i] isnt 0
+      return yes
+
     # Decompose this matrix into lower and upper triangular matrices.
     # @throws SingularMatrixException
     # @return ({l: Matrix, u: Matrix})
