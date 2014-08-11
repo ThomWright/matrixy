@@ -39,9 +39,9 @@ describe 'Matrix', ->
 
   describe 'createIdentityMatrix()', ->
     it 'should create an identity matrix', ->
-      expect(Matrix.createIdentityMatrix(3)._m).to.eql([[1, 0, 0]
-                                                        [0, 1, 0]
-                                                        [0, 0, 1]])
+      expect(Matrix.createIdentityMatrix(3)).to.eql new Matrix([[1, 0, 0]
+                                                                [0, 1, 0]
+                                                                [0, 0, 1]])
     it 'should create an empty identity matrix', ->
       expect(Matrix.createIdentityMatrix(0) ).to.eql new Matrix()
     it 'should return illegal argument exception if size < 0', ->
@@ -52,15 +52,15 @@ describe 'Matrix', ->
       expect(Matrix.createBlankMatrix(0) ).to.eql new Matrix()
 
     it 'should create a 2x2 matrix of all zeros', ->
-      expect(Matrix.createBlankMatrix(2, 2)._m).to.eql([[0, 0]
-                                                        [0, 0]])
+      expect(Matrix.createBlankMatrix(2, 2)).to.eql new Matrix([[0, 0]
+                                                                [0, 0]])
     it 'should return illegal argument exception if size < 0', ->
       expect(-> Matrix.createBlankMatrix( - 1) ).to.throw /.*Number of rows.*/
     it 'should return illegal argument exception if size < 0', ->
       expect(-> Matrix.createBlankMatrix(1, - 1) ).to.throw /.*Number of columns.*/
     it 'should create a square matrix when given one parameter', ->
-      expect(Matrix.createBlankMatrix(2)._m).to.eql([[0, 0]
-                                                     [0, 0]])
+      expect(Matrix.createBlankMatrix(2)).to.eql new Matrix([[0, 0]
+                                                             [0, 0]])
 
   describe 'equals()', ->
     it 'should return true for equal matrices', ->
@@ -71,11 +71,11 @@ describe 'Matrix', ->
 
   describe 'copy()', ->
     it 'should copy itself', ->
-      expect(m1.copy()._m).to.eql(m1._m)
+      expect(m1.copy()).to.eql(m1)
     it 'should create a copy rather than a reference', ->
       copy = m1.copy()
-      copy._m[0][0] = 16
-      expect(m1._m[0][0]).to.eql(1)
+      copy.set(0, 0).to 16
+      expect(m1.get(0, 0)).to.eql(1)
 
   describe 'get()', ->
     it 'should get the correct entry', ->
@@ -88,30 +88,30 @@ describe 'Matrix', ->
       it 'should set an entry in the matrix', ->
         m = m1.copy()
         m.set(0, 1).to(6)
-        expect(m._m[0][1] ).to.equal(6)
+        expect(m.get(0, 1) ).to.equal(6)
       it 'should default to column 0', ->
         m = m1.copy()
         m.set(1).to(6)
-        expect(m._m[1][0] ).to.equal(6)
+        expect(m.get(1, 0) ).to.equal(6)
 
     describe 'set().plusEquals()', ->
       it 'should be equivalent to +=', ->
         m = m1.copy()
         m.set(0, 1).plusEquals(4)
-        expect(m._m[0][1] ).to.equal(6)
+        expect(m.get(0, 1) ).to.equal(6)
 
   describe 'increment()', ->
     it 'should increment by 1', ->
       m = m1.copy()
       m.increment(0, 1)
-      expect(m._m[0][1] ).to.equal(3)
+      expect(m.get(0, 1) ).to.equal(3)
 
   describe 'Multiplication', ->
     it 'should throw an error if the number of rows/columns don\'t match', ->
       expect(-> m1.times(emptyMatrix) ).to.throw("Can't multiply a 2,3 matrix by a 0,0 matrix.")
     it 'should multiply two matrices of different sizes', ->
-      expect(m1.times(m2)._m).to.eql([[ 58, 64]
-                                      [139, 154]])
+      expect(m1.times(m2)).to.eql new Matrix([[ 58, 64]
+                                              [139, 154]])
     it 'should multiply a 3x3 by a 3x1 matrix to form a non-square matrix', ->
       threeByThree = new Matrix([[0, 0, 1]
                                  [0, 1, 0]
@@ -119,9 +119,9 @@ describe 'Matrix', ->
       threeByOne = new Matrix([[6]
                                [ - 4]
                                [27]])
-      expect(threeByThree.times(threeByOne)._m).to.eql([[27]
-                                                        [ - 4]
-                                                        [6]])
+      expect(threeByThree.times(threeByOne)).to.eql new Matrix([[27]
+                                                                [ - 4]
+                                                                [6]])
 
   describe 'LU Decomposition', ->
     it 'should decompose an empty matrix into empty {l,u,p}', ->
@@ -137,10 +137,10 @@ describe 'Matrix', ->
       expect(l.times(u) ).to.almost.eql(p.times(fiveMatrix), 14)
     it 'should return a lower triangular matrix', ->
       {l, u, p} = squareMatrix.decompose()
-      expect(l._m[0][1]).to.equal(0)
+      expect(l.get(0, 1)).to.equal(0)
     it 'should return an upper triangular matrix', ->
       {l, u, p} = squareMatrix.decompose()
-      expect(u._m[1][0]).to.equal(0)
+      expect(u.get(1, 0)).to.equal(0)
     it 'should throw an exception for non-square matrices', ->
       expect(-> m1.decompose() ).to.throw("LU Decomposition not implemented for non-square matrices.")
     describe 'Singular matrix handling', ->
@@ -161,6 +161,6 @@ describe 'Matrix', ->
       b = new Matrix([[6]
                       [ - 4]
                       [27]])
-      expect(Matrix.solve(A, b)._m ).to.eql([[5]
-                                             [3]
-                                             [ - 2]])
+      expect(Matrix.solve(A, b) ).to.eql new Matrix([[5]
+                                                     [3]
+                                                     [ - 2]])
