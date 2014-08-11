@@ -3,8 +3,8 @@ if typeof define isnt 'function'
 
 define ['./utils', 'chai'], (utils, {expect} ) =>
 
-  # @param ([[number]]) m
-  # @return ([[number]])
+  # @param m [Array<Array<Number>>] Matrix to copy.
+  # @return [Array<Array<Number>>]
   copy = (m) ->
     newMatrix = []
     for row, rowIndex in m
@@ -13,15 +13,21 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
         newMatrix[rowIndex].push(c)
     return newMatrix
 
+  class LUP
+    # @property [Matrix] Lower triangular matrix
+    l: null
+    # @property [Matrix] Upper triangular matrix
+    u: null
+    # @property [Matrix] Permutation matrix
+    p: null
+
   # Represents a Matrix
   class Matrix
 
-    ###
-    Solve the matrix equation Ax = b for x.
-    @param (Matrix) A NxN
-    @param (Matrix) b Nx1
-    @return (Matrix) x Nx1
-    ###
+    # Solve the matrix equation Ax = b for x.
+    # @param A [Matrix] NxN
+    # @param b [Matrix] Nx1
+    # @return [Matrix] Nx1
     @solve = (A, b) ->
       # TODO assert sizes are correct
       size = A.getNumOfRows()
@@ -56,8 +62,8 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
 
       x
 
-    # @param (int) size
-    # @return (Matrix) The identity matrix of given size.
+    # @param size [Integer]
+    # @return [Matrix] The identity matrix of given size.
     @createIdentityMatrix = (size) ->
       expect(size, 'Matrix size').to.be.at.least 0
       if size is 0
@@ -65,6 +71,9 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       m = (((if (j == i) then 1 else 0) for j in [0...size]) for i in [0...size])
       return new Matrix(m)
 
+    # @param numOfRows [Integer]
+    # @param numOfCols [Integer] Defaults to numOfRows.
+    # @return [Matrix] The identity matrix of given size.
     @createBlankMatrix = (numOfRows, numOfCols = numOfRows) ->
       expect(numOfRows, 'Number of rows').to.be.at.least 0
       expect(numOfCols, 'Number of columns').to.be.at.least 0
@@ -73,16 +82,16 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       b = ((0 for j in [0...numOfCols]) for i in [0...numOfRows])
       return new Matrix(b)
 
-    ###
-    [rows][columns]
-    e.g.
-    [[ 2, 3, 2, 1]
-     [ 4, 8, 7, 3]
-     [ 2, 1, 0, 2]
-     [ - 4, - 4, 1, 2]]
-    ###
+    # @private
+    # @property [Array<Array<Number>>]
+    #   [rows][columns]
+    # @example A 3x3 matrix
+    #   [[ 2, 3, 2]
+    #   [ 2, 1, 0.5]
+    #   [ 4, 4, -1]]
     _m: [[]]
 
+    # @param array [Array<Array<Number>>]
     constructor: (array) ->
       # TODO assert that all rows are arrays of equal length
       if array?
@@ -90,9 +99,10 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
         expect(array[0], 'Matrix constructor array').to.be.an.instanceof Array
         @_m = array
 
-    # Multiply this matrix with another matrix.
-    # @param (Matrix) m2 Another matrix, with a number of rows equal to the number of columns in this matrix.
-    # @return (Matrix)
+    # Multiply this matrix by another matrix.
+    # @param m2 [Matrix] Another matrix, with a number of rows equal to the number of columns in this matrix.
+    # @throw [IllegalArgumentException] If the matrix size is incorrect.
+    # @return [Matrix]
     times: (m2) ->
       if @getNumOfColumns() isnt m2.getNumOfRows()
         throw {
@@ -112,28 +122,28 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
             r[i][j] += @_m[i][k] * n[k][j]
       return new Matrix(r)
 
-    # @return (int)
+    # @return [Integer]
     getNumOfColumns: ->
       @_m[0].length
 
-    # @return ([int])
+    # @return [Integer]
     getNumOfRows: ->
       if @_m[0].length > 0
         @_m.length
       else # special case for empty matrix
         0
 
-    # @return ([int])
+    # @return [Integer]
     getDimensions: ->
       [@getNumOfRows(), @getNumOfColumns() ]
 
-    # @return (boolean)
+    # @return [Boolean]
     isSquare: ->
       @getNumOfRows() is @getNumOfColumns()
 
     # Decompose this matrix into lower and upper triangular matrices.
-    # @throws SingularMatrixException
-    # @return ({l: Matrix, u: Matrix})
+    # @throw [SingularMatrixException]
+    # @return [LUP] Lower and upper triangular matrices, and a permutation matrix.
     decompose: ->
       if not @isSquare()
         throw {
@@ -184,6 +194,12 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
 
       return {l: new Matrix(l), u: new Matrix(u), p: new Matrix(p) }
 
+    # @param row [Integer]
+    # @param col [Integer]
+    # @example Set row 0 column 1 to a given number.
+    #   set(0, 1).to 5
+    # @example Increment row 0 column 1 by a given 5.
+    #   set(0, 1).plusEquals 5
     set: (row, col = 0) ->
       m = @_m
       {
@@ -193,24 +209,30 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
           m[row][col] += value
       }
 
+    # @param row [Integer]
+    # @param col [Integer]
     increment: (row, col = 0) ->
       @_m[row][col]++
 
+    # @param row [Integer]
+    # @param col [Integer]
     get: (row, col = 0) ->
       @_m[row][col]
 
-    # @return (Matrix)
+    # Make a copy of this matrix.
+    # @return [Matrix]
     copy: ->
       return new Matrix(copy(@_m) )
 
-    # @param (Matrix)
-    # @return (boolean)
+    # @param otherMatrix [Matrix]
+    # @return [Boolean]
     equals: (otherMatrix) ->
       utils.deepEquals(@_m, otherMatrix._m)
 
+    # @return [String]
     toString: ->
       @_m.toString()
 
+    # @return [?]
     valueOf: ->
       @_m.valueOf()
-

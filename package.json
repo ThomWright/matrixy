@@ -15,10 +15,11 @@
     "chai"          : "~1.9",
     "chai-stats"    : "~0.3",
     "coffee-script" : "~1.7",
-    "coffeelint"    : "~1.3"
+    "coffeelint"    : "~1.3",
+    "codo"          : "~2"
   },
   "scripts"         : {
-    "prepublish"    : "cake build",
+    "prepublish"    : "cake build && cake doc",
     "pretest"       : "coffeelint src/*",
     "test"          : "cake test"
   },

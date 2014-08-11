@@ -20,6 +20,9 @@ build = ({watch, callback} = {}) ->
   options.unshift '-w' if watch
   launch 'coffee', options, callback
 
+doc = ->
+  launch './node_modules/.bin/codo'
+
 mocha = (options, callback) ->
   options ?= [
     "--compilers", "coffee:coffee-script/register"
@@ -32,6 +35,8 @@ mocha = (options, callback) ->
   launch './node_modules/.bin/mocha', options, callback
 
 task 'build', 'compile source', -> build()
+
+task 'doc', 'create documentation', -> doc()
 
 task 'watch', 'compile and watch', -> build watch: true
 
