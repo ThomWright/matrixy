@@ -132,8 +132,6 @@ describe 'Matrix', ->
   describe 'get()', ->
     it 'should get the correct entry', ->
       expect(m1.get(0, 1) ).to.equal(2)
-    it 'should default to column 0', ->
-      expect(m1.get(0) ).to.equal(1)
 
   describe 'set', ->
     describe 'set().to()', ->
@@ -141,10 +139,6 @@ describe 'Matrix', ->
         m = m1.copy()
         m.set(0, 1).to(6)
         expect(m.get(0, 1) ).to.equal(6)
-      it 'should default to column 0', ->
-        m = m1.copy()
-        m.set(1).to(6)
-        expect(m.get(1, 0) ).to.equal(6)
 
     describe 'set().plusEquals()', ->
       it 'should be equivalent to +=', ->

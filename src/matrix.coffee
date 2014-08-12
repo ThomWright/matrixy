@@ -223,7 +223,7 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
     #   set(0, 1).to 5
     # @example Increment row 0 column 1 by a given 5.
     #   set(0, 1).plusEquals 5
-    set: (row, col = 0) ->
+    set: (row, col) ->
       m = @_m
       {
         to: (value) ->
@@ -234,12 +234,12 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
 
     # @param row [Integer]
     # @param col [Integer]
-    increment: (row, col = 0) ->
+    increment: (row, col) ->
       @_m[row][col]++
 
     # @param row [Integer]
     # @param col [Integer]
-    get: (row, col = 0) ->
+    get: (row, col) ->
       @_m[row][col]
 
     # Make a copy of this matrix.
