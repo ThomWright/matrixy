@@ -149,8 +149,8 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       return yes if numOfRows is 1
 
       for i in [1...numOfRows]
-        row_to_count_to = Math.min(i - 1, numOfColumns - 1)
-        for j in [0..row_to_count_to]
+        rowToCountTo = Math.min(i - 1, numOfColumns - 1)
+        for j in [0..rowToCountTo]
           return no if @_m[i][j] isnt 0
       return yes
 
