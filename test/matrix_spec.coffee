@@ -152,22 +152,30 @@ describe 'Matrix', ->
       m.increment(0, 1)
       expect(m.get(0, 1) ).to.equal(3)
 
-  describe 'Multiplication', ->
-    it 'should throw an error if the number of rows/columns don\'t match', ->
-      expect(-> m1.times(emptyMatrix) ).to.throw("Can't multiply a 2,3 matrix by a 0,0 matrix.")
-    it 'should multiply two matrices of different sizes', ->
-      expect(m1.times(m2)).to.eql new Matrix([[ 58, 64]
-                                              [139, 154]])
-    it 'should multiply a 3x3 by a 3x1 matrix to form a non-square matrix', ->
-      threeByThree = new Matrix([[0, 0, 1]
-                                 [0, 1, 0]
-                                 [1, 0, 0]])
-      threeByOne = new Matrix([[6]
-                               [ - 4]
-                               [27]])
-      expect(threeByThree.times(threeByOne)).to.eql new Matrix([[27]
-                                                                [ - 4]
-                                                                [6]])
+  describe 'Basic arithmetic', ->
+    describe 'Addition', ->
+      it "should throw an error if the matrices aren't the same size", ->
+        expect(-> m1.plus(m2) ).to.throw "Can't add a 2x3 matrix to a 3x2 matrix."
+      it 'should add two 2x3 matrices', ->
+        expect(m1.plus(m1) ).to.eql new Matrix([[2, 4, 6]
+                                                [8, 10, 12]])
+
+    describe 'Multiplication', ->
+      it "should throw an error if the number of rows/columns don't match", ->
+        expect(-> m1.times(emptyMatrix) ).to.throw "Can't multiply a 2x3 matrix by a 0x0 matrix."
+      it 'should multiply two matrices of different sizes', ->
+        expect(m1.times(m2)).to.eql new Matrix([[ 58, 64]
+                                                [139, 154]])
+      it 'should multiply a 3x3 by a 3x1 matrix to form a non-square matrix', ->
+        threeByThree = new Matrix([[0, 0, 1]
+                                   [0, 1, 0]
+                                   [1, 0, 0]])
+        threeByOne = new Matrix([[6]
+                                 [ - 4]
+                                 [27]])
+        expect(threeByThree.times(threeByOne)).to.eql new Matrix([[27]
+                                                                  [ - 4]
+                                                                  [6]])
 
   describe 'LU Decomposition', ->
     it 'should decompose an empty matrix into empty {l,u,p}', ->

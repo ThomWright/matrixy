@@ -99,6 +99,22 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
         expect(array[0], 'Matrix constructor array').to.be.an.instanceof Array
         @_m = array
 
+    plus: (m2) ->
+      if @getSize() isnt m2.getSize()
+        throw {
+          name: 'IllegalArgumentException'
+          message: "Can't add a #{@getSize()} matrix to a #{m2.getSize()} matrix."
+        }
+
+      n = m2._m
+
+      r = ((0 for [0...@getNumOfColumns() ]) for [0...@getNumOfRows() ])
+
+      for i in [0...@getNumOfRows() ]
+        for j in [0...@getNumOfColumns()]
+          r[i][j] = @_m[i][j] + n[i][j]
+      return new Matrix(r)
+
     # Multiply this matrix by another matrix.
     # @param m2 [Matrix] Another matrix, with a number of rows equal to the number of columns in this matrix.
     # @throw [IllegalArgumentException] If the matrix size is incorrect.
@@ -107,7 +123,7 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       if @getNumOfColumns() isnt m2.getNumOfRows()
         throw {
           name: 'IllegalArgumentException'
-          message: "Can't multiply a #{@getDimensions()} matrix by a #{m2.getDimensions()} matrix."
+          message: "Can't multiply a #{@getSize()} matrix by a #{m2.getSize()} matrix."
         }
 
       # work with the inner array
@@ -136,6 +152,12 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
     # @return [Integer]
     getDimensions: ->
       [@getNumOfRows(), @getNumOfColumns() ]
+
+    # Get a string representation of the matrix size.
+    # @return [String]
+    getSize: ->
+      [numOfRows, numOfCols] = @getDimensions()
+      "#{numOfRows}x#{numOfCols}"
 
     # @return [Boolean]
     isSquare: ->
