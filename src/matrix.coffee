@@ -99,6 +99,10 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
         expect(array[0], 'Matrix constructor array').to.be.an.instanceof Array
         @_m = array
 
+    # Add this matrix to another matrix.
+    # @param m2 [Matrix]
+    # @throw [IllegalArgumentException] If the matrix size is incorrect.
+    # @return [Matrix]
     plus: (m2) ->
       if @getSize() isnt m2.getSize()
         throw {
