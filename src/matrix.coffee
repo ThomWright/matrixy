@@ -141,6 +141,29 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
     isSquare: ->
       @getNumOfRows() is @getNumOfColumns()
 
+    # @return [Boolean]
+    isLowerTriangular: ->
+      [numOfRows, numOfColumns] = @getDimensions()
+      return no if numOfRows is 0 or numOfColumns is 0
+      return yes if numOfColumns is 1
+
+      for i in [0...numOfRows]
+        for j in [(i + 1)...numOfColumns]
+          return no if @_m[i][j] isnt 0
+      return yes
+
+    # @return [Boolean]
+    isUpperTriangular: ->
+      [numOfRows, numOfColumns] = @getDimensions()
+      return no if numOfRows is 0 or numOfColumns is 0
+      return yes if numOfRows is 1
+
+      for i in [1...numOfRows]
+        rowToCountTo = Math.min(i - 1, numOfColumns - 1)
+        for j in [0..rowToCountTo]
+          return no if @_m[i][j] isnt 0
+      return yes
+
     # Decompose this matrix into lower and upper triangular matrices.
     # @throw [SingularMatrixException]
     # @return [LUP] Lower and upper triangular matrices, and a permutation matrix.

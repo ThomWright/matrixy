@@ -1,6 +1,10 @@
 Matrix = require '../src/matrix'
 
 emptyMatrix = new Matrix()
+oneMatrix = new Matrix([[3]])
+singleRowMatrix = new Matrix([[5, 6, 9]])
+singleColumnMatrix = new Matrix([[1]
+                                 [2]])
 m1 = new Matrix([[1, 2, 3]
                  [4, 5, 6]])
 m2 = new Matrix([[ 7, 8]
@@ -36,6 +40,54 @@ describe 'Matrix', ->
       expect(squareMatrix.isSquare() ).to.be.true
     it 'should return false if the matrix isn\'t square', ->
       expect(m1.isSquare() ).to.be.false
+
+  describe 'isLowerTriangular()', ->
+    it 'should return no for empty matrix', ->
+      expect(emptyMatrix.isLowerTriangular()).to.equal no
+    it 'should return yes for one by one matrix', ->
+      expect(oneMatrix.isLowerTriangular()).to.equal yes
+    it 'should return yes for a three by three L matrix', ->
+      threeLowerTriangularMatrix = new Matrix([[1, 0, 0]
+                                               [1, 3, 0]
+                                               [7, 5, 9]])
+      expect(threeLowerTriangularMatrix.isLowerTriangular()).to.equal yes
+    it 'should return no for an almost three by three L matrix', ->
+      threeAlmostLowerTriangularMatrix = new Matrix([[1, 0, 1]
+                                                     [1, 3, 0]
+                                                     [7, 5, 9]])
+      expect(threeAlmostLowerTriangularMatrix.isLowerTriangular()).to.equal no
+    it 'should return yes for rectangular lower triangular matrix', ->
+      rectangularLowerTriangularMatrix = new Matrix([[1, 0, 0, 0]
+                                                     [5, 8, 0, 0]])
+      expect(rectangularLowerTriangularMatrix.isLowerTriangular()).to.equal yes
+    it 'should return yes for single column matrix', ->
+      expect(singleColumnMatrix.isLowerTriangular()).to.equal yes
+    it 'should return no for single row matrix of all non-zero values', ->
+      expect(singleRowMatrix.isLowerTriangular()).to.equal no
+
+  describe 'isUpperTriangular()', ->
+    it 'should return no for empty matrix', ->
+      expect(emptyMatrix.isUpperTriangular()).to.equal no
+    it 'should return yes for one by one matrix', ->
+      expect(oneMatrix.isUpperTriangular()).to.equal yes
+    it 'should return yes for a three by three U matrix', ->
+      threeUpperTriangularMatrix = new Matrix([[1, 1, 7]
+                                               [0, 3, 5]
+                                               [0, 0, 9]])
+      expect(threeUpperTriangularMatrix.isUpperTriangular()).to.equal yes
+    it 'should return no for an almost three by three U matrix', ->
+      rectangularUpperTriangularMatrix = new Matrix([[1, 1, 7]
+                                                     [0, 3, 5]
+                                                     [1, 0, 9]])
+    it 'should return yes for single row matrix', ->
+      expect(singleRowMatrix.isUpperTriangular()).to.equal yes
+    it 'should return no for single column matrix of all non-zero values', ->
+      expect(singleColumnMatrix.isUpperTriangular()).to.equal no
+    it 'should return yes for rectangular upper triangular matrix', ->
+      rectangularUpperTriangularMatrix = new Matrix([[1, 5]
+                                                     [0, 8]
+                                                     [0, 0]])
+      expect(rectangularUpperTriangularMatrix.isUpperTriangular()).to.equal yes
 
   describe 'createIdentityMatrix()', ->
     it 'should create an identity matrix', ->
