@@ -68,7 +68,11 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       expect(size, 'Matrix size').to.be.at.least 0
       if size is 0
         return new Matrix()
-      m = (((if (j == i) then 1 else 0) for j in [0...size]) for i in [0...size])
+      m = new Array(size)
+      for i in [0...size]
+        m[i] = new Array(size)
+        for j in [0...size]
+          m[i][j] = if i is j then 1 else 0
       return new Matrix(m)
 
     # @param numOfRows [Integer]
@@ -79,7 +83,11 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       expect(numOfCols, 'Number of columns').to.be.at.least 0
       if numOfRows is 0 or numOfCols is 0
         return new Matrix()
-      b = ((0 for j in [0...numOfCols]) for i in [0...numOfRows])
+      b = new Array(numOfRows)
+      for i in [0...numOfRows]
+        b[i] = new Array(numOfCols)
+        for j in [0...numOfCols]
+          b[i][j] = 0
       return new Matrix(b)
 
     # @private
@@ -112,9 +120,10 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
 
       n = m2._m
 
-      r = ((0 for [0...@getNumOfColumns() ]) for [0...@getNumOfRows() ])
+      r = new Array(@getNumOfRows())
 
       for i in [0...@getNumOfRows() ]
+        r[i] = new Array(@getNumOfColumns())
         for j in [0...@getNumOfColumns()]
           r[i][j] = @_m[i][j] + n[i][j]
       return new Matrix(r)
