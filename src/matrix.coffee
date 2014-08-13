@@ -143,10 +143,12 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       n = m2._m
 
       # initialise result
-      r = ((0 for [0...m2.getNumOfColumns() ]) for [0...@getNumOfRows() ])
+      r = new Array(@getNumOfRows())
 
       for i in [0...@getNumOfRows() ]
+        r[i] = new Array(m2.getNumOfColumns())
         for j in [0...m2.getNumOfColumns() ]
+          r[i][j] = 0
           for k in [0...@getNumOfColumns() ]
             r[i][j] += @_m[i][k] * n[k][j]
       return new Matrix(r)
