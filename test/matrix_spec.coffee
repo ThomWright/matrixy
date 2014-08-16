@@ -160,6 +160,13 @@ describe 'Matrix', ->
         expect(m1.plus(m1) ).to.eql new Matrix([[2, 4, 6]
                                                 [8, 10, 12]])
 
+    describe 'Subtraction', ->
+      it "should throw an error if the matrices aren't the same size", ->
+        expect(-> m1.minus(m2) ).to.throw "Can't subtract a 3x2 matrix from a 2x3 matrix."
+      it 'should add two 2x3 matrices', ->
+        expect(m1.minus(m1) ).to.eql new Matrix([[0, 0, 0]
+                                                [0, 0, 0]])
+
     describe 'Multiplication', ->
       it "should throw an error if the number of rows/columns don't match", ->
         expect(-> m1.times(emptyMatrix) ).to.throw "Can't multiply a 2x3 matrix by a 0x0 matrix."

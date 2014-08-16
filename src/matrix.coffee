@@ -43,6 +43,10 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       Um = u._m
       ym = y._m
 
+      ###
+      TODO optimise by treating x (and y) as a single array, then copy into a 1 column matrix?
+      ###
+
       # Solve Ly = Pb where y = Ux using forward substitution
       for rowIndex in [0...size]
         ym[rowIndex][0] = pbm[rowIndex][0]
@@ -120,12 +124,33 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
 
       n = m2._m
 
-      r = new Array(@getNumOfRows())
+      r = new Array(@getNumOfRows() )
 
       for i in [0...@getNumOfRows() ]
-        r[i] = new Array(@getNumOfColumns())
-        for j in [0...@getNumOfColumns()]
+        r[i] = new Array(@getNumOfColumns() )
+        for j in [0...@getNumOfColumns() ]
           r[i][j] = @_m[i][j] + n[i][j]
+      return new Matrix(r)
+
+    # Subtract another matrix from this matrix.
+    # @param m2 [Matrix]
+    # @throw [IllegalArgumentException] If the matrix size is incorrect.
+    # @return [Matrix]
+    minus: (m2) ->
+      if @getSize() isnt m2.getSize()
+        throw {
+          name: 'IllegalArgumentException'
+          message: "Can't subtract a #{m2.getSize()} matrix from a #{@getSize()} matrix."
+        }
+
+      n = m2._m
+
+      r = new Array(@getNumOfRows() )
+
+      for i in [0...@getNumOfRows() ]
+        r[i] = new Array(@getNumOfColumns() )
+        for j in [0...@getNumOfColumns() ]
+          r[i][j] = @_m[i][j] - n[i][j]
       return new Matrix(r)
 
     # Multiply this matrix by another matrix.
@@ -143,10 +168,10 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
       n = m2._m
 
       # initialise result
-      r = new Array(@getNumOfRows())
+      r = new Array(@getNumOfRows() )
 
       for i in [0...@getNumOfRows() ]
-        r[i] = new Array(m2.getNumOfColumns())
+        r[i] = new Array(m2.getNumOfColumns() )
         for j in [0...m2.getNumOfColumns() ]
           r[i][j] = 0
           for k in [0...@getNumOfColumns() ]
