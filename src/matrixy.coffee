@@ -4,44 +4,43 @@ arrayFns = require './arrays'
 createMatrix = (arrays) ->
   expect(arrays, 'createMatrix').to.not.be.empty
   expect(arrays[0], 'createMatrix').to.not.be.empty
-
-  (op) ->
-    op arrays
+  matrix = (op) ->
+    op?(matrix) or arrays
 
 # Lol performance
 createImmutableMatrix = (arrays) ->
-  (op) ->
-    op arrayFns.copy arrays
+  matrix = (op) ->
+    op?(matrix) or arrayFns.copy arrays
 
 # ([[]] -> [[]]) -> Matrix -> Matrix
-fmap = (arrayFunction) ->
-  (matrix) ->
-    matrix arrayFunction
+lift = (arrayFunction) ->
+  (m) ->
+    arrayFunction m()
 
-# ([[]], [[]] -> [[]]) -> Matrix -> [[]] -> Matrix
-liftInfix = (infixArrayFunc) ->
-  (matrix) ->
-    (arrays) ->
-      matrixArrays = innerArraysOf matrix
+# ([[]], [[]] -> [[]]) -> Matrix -> Matrix -> Matrix
+lift2 = (fOfTwoArrays) ->
+  (m2) ->
+    (m1) ->
+      # console.log m1
       createMatrix \
-        infixArrayFunc arrays, matrixArrays
+        fOfTwoArrays m1(), m2()
 
 ###
 Matrix Functions
 ###
 get = (row, col) ->
-  (arrays) ->
-    arrays[row][col]
+  (m) ->
+    m()[row][col]
 
-numOfRowsOf = fmap arrayFns.getNumOfRows
+numOfRowsOf = lift arrayFns.getNumOfRows
 
-numOfColsOf = fmap arrayFns.getNumOfColumns
+numOfColsOf = lift arrayFns.getNumOfColumns
 
-innerArraysOf = fmap (arrays) -> arrays
+innerArraysOf = lift (arrays) -> arrays
 
-sizeOf = fmap arrayFns.getSize
+sizeOf = lift arrayFns.getSize
 
-plus = liftInfix arrayFns.add
+plus = lift2 arrayFns.add
 
 module.exports =
   createMatrix: createMatrix
