@@ -1,6 +1,10 @@
 arrayFns = require './arrays'
+{expect} = require 'chai'
 
 createMatrix = (arrays) ->
+  expect(arrays, 'createMatrix').to.not.be.empty
+  expect(arrays[0], 'createMatrix').to.not.be.empty
+
   (op) ->
     op arrays
 
