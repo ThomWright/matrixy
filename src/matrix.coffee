@@ -21,6 +21,40 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
     # @property [Matrix] Permutation matrix
     p: null
 
+  solve = ({l, u, p}, b) ->
+    size = b.getNumOfRows()
+    pb = p.times(b)
+    y = Matrix.createBlankMatrix(size, 1)
+
+    # Use inner arrays for clarity
+    pbm = pb._m
+    Lm = l._m
+    Um = u._m
+    ym = y._m
+
+    ###
+    TODO optimise by treating x (and y) as a single array, then copy into a 1 column matrix?
+    ###
+
+    # Solve Ly = Pb where y = Ux using forward substitution
+    for rowIndex in [0...size]
+      ym[rowIndex][0] = pbm[rowIndex][0]
+      for colIndex in [0...rowIndex]
+        ym[rowIndex][0] -= Lm[rowIndex][colIndex] * ym[colIndex][0]
+      ym[rowIndex][0] /= Lm[rowIndex][rowIndex]
+
+    x = Matrix.createBlankMatrix(size, 1)
+    xm = x._m
+
+    # Solve Ux = y using backward substitution
+    for rowIndex in [(size - 1)..0]
+      xm[rowIndex][0] = ym[rowIndex][0]
+      for colIndex in [rowIndex + 1...size]
+        xm[rowIndex][0] -= Um[rowIndex][colIndex] * xm[colIndex][0]
+      xm[rowIndex][0] /= Um[rowIndex][rowIndex]
+
+    x
+
   # Represents a Matrix
   class Matrix
 
@@ -30,41 +64,7 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
     # @return [Matrix] Nx1
     @solve = (A, b) ->
       # TODO assert sizes are correct
-      size = A.getNumOfRows()
-
-      {l, u, p} = A.decompose()
-      pb = p.times(b)
-      y = Matrix.createBlankMatrix(size, 1)
-
-      # Use inner arrays for clarity
-      Am = A._m
-      pbm = pb._m
-      Lm = l._m
-      Um = u._m
-      ym = y._m
-
-      ###
-      TODO optimise by treating x (and y) as a single array, then copy into a 1 column matrix?
-      ###
-
-      # Solve Ly = Pb where y = Ux using forward substitution
-      for rowIndex in [0...size]
-        ym[rowIndex][0] = pbm[rowIndex][0]
-        for colIndex in [0...rowIndex]
-          ym[rowIndex][0] -= Lm[rowIndex][colIndex] * ym[colIndex][0]
-        ym[rowIndex][0] /= Lm[rowIndex][rowIndex]
-
-      x = Matrix.createBlankMatrix(size, 1)
-      xm = x._m
-
-      # Solve Ux = y using backward substitution
-      for rowIndex in [size - 1..0]
-        xm[rowIndex][0] = ym[rowIndex][0]
-        for colIndex in [rowIndex + 1...size]
-          xm[rowIndex][0] -= Um[rowIndex][colIndex] * xm[colIndex][0]
-        xm[rowIndex][0] /= Um[rowIndex][rowIndex]
-
-      x
+      solve A.decompose(), b
 
     # @param size [Integer]
     # @return [Matrix] The identity matrix of given size.
@@ -162,6 +162,7 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
         throw {
           name: 'IllegalArgumentException'
           message: "Can't multiply a #{@getSize()} matrix by a #{m2.getSize()} matrix."
+          stack: new Error('').stack
         }
 
       # work with the inner array
@@ -225,6 +226,34 @@ define ['./utils', 'chai'], (utils, {expect} ) =>
         for j in [0..rowToCountTo]
           return no if @_m[i][j] isnt 0
       return yes
+
+    getRowVector: (rowNum) ->
+      new Matrix([@_m[rowNum]])
+
+    invert: ->
+      if not @isSquare()
+        throw {
+          name: 'IllegalOperationException',
+          message: "Can't invert a non-square matrix."
+        }
+
+      columns = new Array()
+      size = @getNumOfRows()
+      identity = Matrix.createIdentityMatrix(size)
+
+      for i in [0...size]
+        columnOfIdentity = identity.getRowVector(i).transpose()
+        columns[i] = solve(@.decompose(), columnOfIdentity)._m[0]
+
+      new Matrix(columns).transpose()
+
+    transpose: ->
+      t = new Array()
+      for i in [0...@getNumOfColumns()]
+        t[i] = new Array()
+        for j in [0...@getNumOfRows()]
+          t[i][j] = @_m[j][i]
+      new Matrix(t)
 
     # Decompose this matrix into lower and upper triangular matrices.
     # @throw [SingularMatrixException]

@@ -214,6 +214,22 @@ describe 'Matrix', ->
           expect(error).to.have.ownProperty 'cause'
           expect(error.cause).to.eql singularMatrix
 
+  describe 'invert()', ->
+    it 'should invert a matrix', ->
+      invertable = new Matrix([[2, -1, 0]
+                         [-1, 2, -1]
+                         [0, -1, 2] ])
+
+      expect(invertable.invert()).to.almost.eql new Matrix([[0.75, 0.5, 0.25]
+                                            [0.5, 1, 0.5]
+                                            [0.25, 0.5, 0.75]]), 10
+
+  describe 'transpose()', ->
+    it 'should transpose a matrix', ->
+      expect(m1.transpose() ).to.eql new Matrix([[1, 4]
+                                                 [2, 5]
+                                                 [3, 6]])
+
   describe 'Equation solver', ->
     it 'should solve a matrix equation of the form Ax=b for x', ->
       A = new Matrix([[1, 1, 1]
