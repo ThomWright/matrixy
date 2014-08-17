@@ -47,19 +47,28 @@ t.getSize = (arrays) ->
   [numOfRows, numOfCols] = t.getDimensions(arrays)
   "#{numOfRows}x#{numOfCols}"
 
-t.add = (a1, a2) ->
-  size1 = t.getSize a1
-  size2 = t.getSize a2
-  if size1 isnt size2
-    throw {
-      name: 'IllegalArgumentException'
-      message: "Can't add a #{size1} matrix to a #{size2} matrix."
-    }
-
+combine = (a1, a2, f) ->
   r = new Array(t.getNumOfRows a1 )
 
   for i in [0...t.getNumOfRows a1 ]
     r[i] = new Array(t.getNumOfColumns a1 )
     for j in [0...t.getNumOfColumns a1]
-      r[i][j] = a1[i][j] + a2[i][j]
+      r[i][j] = f a1[i][j], a2[i][j]
+  return r
+
+t.add = (a1, a2) ->
+  combine a1, a2, (n1, n2) -> n1 + n2
+
+t.subtract = (a1, a2) ->
+  combine a1, a2, (n1, n2) -> n1 - n2
+
+t.multiply = (a1, a2) ->
+  r = new Array(t.getNumOfRows a1 )
+
+  for i in [0...t.getNumOfRows a1 ]
+    r[i] = new Array(t.getNumOfColumns a2 )
+    for j in [0...t.getNumOfColumns a2 ]
+      r[i][j] = 0
+      for k in [0...t.getNumOfColumns a1 ]
+        r[i][j] += a1[i][k] * a2[k][j]
   return r
