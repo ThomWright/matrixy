@@ -11,16 +11,31 @@ t.copy = (arrays) ->
       newMatrix[i][j] = e
   return newMatrix
 
+t.isEmpty = (arrays) ->
+  if arrays.length is 0 or arrays[0].length is 0
+    yes
+  else
+    no
+
+t.isSquare = (arrays) ->
+  if t.isEmpty arrays
+    no
+  else
+    t.getNumOfRows(arrays) is t.getNumOfColumns(arrays)
+
 # @return [Integer]
 t.getNumOfColumns = (arrays) ->
-  arrays[0].length
+  if arrays.length is 0
+    0
+  else
+    arrays[0].length
 
 # @return [Integer]
 t.getNumOfRows = (arrays) ->
-  if arrays[0].length > 0
-    arrays.length
-  else # special case for empty matrix
+  if t.isEmpty arrays
     0
+  else if arrays[0].length > 0
+    arrays.length
 
 # @return [Array<Integer>]
 t.getDimensions = (arrays) ->
