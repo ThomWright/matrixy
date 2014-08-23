@@ -11,6 +11,11 @@ createImmutableMatrix = (arrays) ->
   wrapper = (op) ->
     op?(wrapper) or arrayFns.copy arrays
 
+compose = (f, g) ->
+  ->
+    args = Array::slice.call arguments
+    f g.apply @, args
+
 # ([[]] -> [[]]) -> Matrix -> Matrix
 lift = (arrayFunction) ->
   (m) ->
@@ -26,6 +31,10 @@ lift2 = (fOfTwoArrays) ->
 ###
 Matrix Functions
 ###
+createIdentityMatrix = compose createMatrix, arrayFns.createIdentity
+
+createBlankMatrix = compose createMatrix, arrayFns.createBlank
+
 get = (row, col) ->
   (m) ->
     m()[row][col]
@@ -60,6 +69,8 @@ plus = lift2 (a1, a2) ->
 module.exports =
   createMatrix: createMatrix
   createImmutableMatrix: createImmutableMatrix
+  createIdentityMatrix: createIdentityMatrix
+  createBlankMatrix: createBlankMatrix
   get: get
   set: set
   plus: plus

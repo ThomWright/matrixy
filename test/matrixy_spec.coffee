@@ -2,15 +2,44 @@ matrixy = require '../src/matrixy'
 {createMatrix} = matrixy
 
 describe 'matrixy:', ->
-  describe 'createMatrix', ->
-    it 'should take an array of arrays and return a Function', ->
-      expect(createMatrix [[5]] ).to.be.a 'Function'
+  describe 'Matrix creation', ->
+    describe 'createMatrix', ->
+      it 'should take an array of arrays and return a Function', ->
+        expect(createMatrix [[5]] ).to.be.a 'Function'
 
-    it 'should throw an exception if the arrays are empty', ->
-      expect(-> createMatrix [[]] ).to.throw /.*createMatrix.*/
+      it 'should throw an exception if the arrays are empty', ->
+        expect(-> createMatrix [[]] ).to.throw /.*createMatrix.*/
 
-    it 'should throw an exception for a single-dimension array', ->
-      expect(-> createMatrix [] ).to.throw /.*createMatrix.*/
+      it 'should throw an exception for a single-dimension array', ->
+        expect(-> createMatrix [] ).to.throw /.*createMatrix.*/
+
+    describe 'createImmutableMatrix', ->
+      {createImmutableMatrix} = matrixy
+      it 'should not modify the original when the underlying array is modified', ->
+        original = [[1, 2]]
+        immutableMatrix = createImmutableMatrix original
+        immutableMatrix()[0][0] = 23
+        expect(immutableMatrix() ).to.eql original
+      it 'should not let operations modify the matrix', ->
+        {set} = matrixy
+        original = [[1, 2]]
+        immutableMatrix = createImmutableMatrix original
+        immutableMatrix set(0, 0).to 23
+        expect(immutableMatrix() ).to.eql original
+
+    describe 'createIdentityMatrix', ->
+      {createIdentityMatrix} = matrixy
+      it 'should create an identity matrix', ->
+        identity2x2 = createIdentityMatrix 2
+        expect(identity2x2() ).to.eql [[1, 0]
+                                       [0, 1]]
+
+    describe 'createBlankMatrix', ->
+      {createBlankMatrix} = matrixy
+      it 'should create a blank matrix', ->
+        blank2x2 = createBlankMatrix 2
+        expect(blank2x2() ).to.eql [[0, 0]
+                                       [0, 0]]
 
   describe 'matrix()', ->
     it 'should return the inner arrays when given no args', ->
