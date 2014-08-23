@@ -18,14 +18,17 @@ t.copy = (arrays) ->
     newMatrix[i] = new Array(t.getNumOfColumns arrays)
     for e, j in row
       newMatrix[i][j] = e
-  return newMatrix
 
+# @param arrays [Array<Array<Number>>]
+# @return [Boolean]
 t.isEmpty = (arrays) ->
   if arrays.length is 0 or arrays[0].length is 0
     yes
   else
     no
 
+# @param arrays [Array<Array<Number>>]
+# @return [Boolean]
 t.isSquare = (arrays) ->
   if t.isEmpty arrays
     no
@@ -39,6 +42,7 @@ t.getNumOfColumns = (arrays) ->
   else
     arrays[0].length
 
+# @param arrays [Array<Array<Number>>]
 # @return [Integer]
 t.getNumOfRows = (arrays) ->
   if t.isEmpty arrays
@@ -46,11 +50,13 @@ t.getNumOfRows = (arrays) ->
   else if arrays[0].length > 0
     arrays.length
 
+# @param arrays [Array<Array<Number>>]
 # @return [Array<Integer>]
 t.getDimensions = (arrays) ->
   [t.getNumOfRows(arrays), t.getNumOfColumns(arrays) ]
 
 # Get a string representation of the matrix size.
+# @param arrays [Array<Array<Number>>]
 # @return [String]
 t.getSize = (arrays) ->
   [numOfRows, numOfCols] = t.getDimensions(arrays)
@@ -58,19 +64,26 @@ t.getSize = (arrays) ->
 
 combine = (a1, a2, f) ->
   r = new Array(t.getNumOfRows a1 )
-
   for i in [0...t.getNumOfRows a1 ]
     r[i] = new Array(t.getNumOfColumns a1 )
     for j in [0...t.getNumOfColumns a1]
       r[i][j] = f a1[i][j], a2[i][j]
-  return r
 
+# @param a1 [Array<Array<Number>>]
+# @param a2 [Array<Array<Number>>]
+# @return [Array<Array<Number>>]
 t.add = (a1, a2) ->
   combine a1, a2, (n1, n2) -> n1 + n2
 
+# @param a1 [Array<Array<Number>>]
+# @param a2 [Array<Array<Number>>]
+# @return [Array<Array<Number>>]
 t.subtract = (a1, a2) ->
   combine a1, a2, (n1, n2) -> n1 - n2
 
+# @param a1 [Array<Array<Number>>]
+# @param a2 [Array<Array<Number>>]
+# @return [Array<Array<Number>>]
 t.multiply = (a1, a2) ->
   r = new Array(t.getNumOfRows a1 )
 
@@ -83,6 +96,7 @@ t.multiply = (a1, a2) ->
   return r
 
 # Decompose this matrix into lower and upper triangular matrices.
+# @param arrays [Array<Array<Number>>]
 # @throw [SingularMatrixException]
 # @return [LUP] Lower and upper triangular matrices, and a permutation matrix.
 t.decompose = (arrays) ->
@@ -96,7 +110,6 @@ t.decompose = (arrays) ->
 
   size = t.getNumOfRows(arrays)
 
-  # initialise l and u
   l = t.createIdentity size
   u = t.copy arrays
   p = t.createIdentity size
