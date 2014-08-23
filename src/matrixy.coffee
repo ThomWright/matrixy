@@ -17,9 +17,6 @@ createImmutableMatrix = (arrays) ->
   wrapper = (op) ->
     op?(wrapper) or arrayFns.copy arrays
 
-###
-Matrix Functions
-###
 createIdentityMatrix = compose createMatrix, arrayFns.createIdentity
 
 createBlankMatrix = compose createMatrix, arrayFns.createBlank
@@ -58,6 +55,10 @@ plus = lift2 (a1, a2) ->
   checkSizesMatch a1, a2
   arrayFns.add a1, a2
 
+minus = lift2 (a1, a2) ->
+  checkSizesMatch a1, a2
+  arrayFns.subtract a1, a2
+
 module.exports =
   createMatrix: createMatrix
   createImmutableMatrix: createImmutableMatrix
@@ -67,6 +68,7 @@ module.exports =
   get: get
   set: set
   plus: plus
+  minus: minus
   sizeOf: sizeOf
   innerArraysOf: innerArraysOf
   numOfRowsOf: numOfRowsOf

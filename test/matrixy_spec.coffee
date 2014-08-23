@@ -88,8 +88,10 @@ describe 'matrixy:', ->
         expect(m get(0, 1) ).to.equal 6
 
   describe 'Basic arithmetic:', ->
-    twoByThree = createMatrix [[1, 2, 3]
-                               [4, 5, 6]]
+    a2x3 = createMatrix [[1, 2, 3]
+                         [4, 5, 6]]
+    b2x3 = createMatrix [[1, 1, 1]
+                         [1, 1, 1]]
     threeByTwo = createMatrix [[1, 2]
                                [3, 4]
                                [5, 6]]
@@ -97,8 +99,17 @@ describe 'matrixy:', ->
     describe 'Addition', ->
       {plus} = matrixy
       it "should throw an error if the matrices aren't the same size", ->
-        expect(-> twoByThree plus threeByTwo ).to.throw /.*Matrix size.*/
+        expect(-> a2x3 plus threeByTwo ).to.throw /.*Matrix size.*/
       it 'should add two 2x3 matrices', ->
-        result = twoByThree plus twoByThree
+        result = a2x3 plus a2x3
         expect(result() ).to.eql [[2, 4, 6]
                                   [8, 10, 12]]
+
+    describe 'Subtraction', ->
+      {minus} = matrixy
+      it "should throw an error if the matrices aren't the same size", ->
+        expect(-> a2x3 minus threeByTwo ).to.throw /.*Matrix size.*/
+      it 'should subtract two 2x3 matrices', ->
+        result = a2x3 minus b2x3
+        expect(result() ).to.eql [[0, 1, 2]
+                                  [3, 4, 5]]

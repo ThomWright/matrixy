@@ -157,22 +157,24 @@ describe 'Array Functions:', ->
       expect(b[0][0]).to.eql(2)
 
   describe 'Basic arithmetic', ->
-    twoByThree = [[1, 2, 3]
-                  [4, 5, 6]]
+    a2x3 = [[1, 2, 3]
+            [4, 5, 6]]
+    b2x3 = [[1, 1, 1]
+            [1, 1, 1]]
     threeByTwo = [[1, 2]
                   [3, 4]
                   [5, 6]]
     describe 'add', ->
       {add} = arrays
       it 'should add two 2x3 matrices', ->
-        expect(add twoByThree, twoByThree ).to.eql [[2, 4, 6]
+        expect(add a2x3, a2x3 ).to.eql [[2, 4, 6]
                                                     [8, 10, 12]]
 
     describe 'Subtraction', ->
       {subtract} = arrays
       it 'should subtract two 2x3 matrices', ->
-        expect(subtract twoByThree, twoByThree ).to.eql [[0, 0, 0]
-                                                         [0, 0, 0]]
+        expect(subtract a2x3, b2x3 ).to.eql [[0, 1, 2]
+                                             [3, 4, 5]]
 
     describe 'Multiplication', ->
       {multiply} = arrays
