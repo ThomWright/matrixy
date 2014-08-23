@@ -1,5 +1,7 @@
 arrays = require '../src/arrays'
 
+empty = [[]]
+
 describe 'Array Functions:', ->
   describe 'Creating 2D arrays:', ->
     describe 'createIdentity', ->
@@ -76,6 +78,60 @@ describe 'Array Functions:', ->
         expect(isSquare [] ).to.be.false
       it "should return false if the matrix isn't square", ->
         expect(isSquare [[1, 2]] ).to.be.false
+
+  describe 'Detecting triangular matrices', ->
+    describe 'isLowerTriangular', ->
+      {isLowerTriangular} = arrays
+      it 'should return no for empty matrix', ->
+        expect(isLowerTriangular empty ).to.equal no
+      it 'should return yes for one by one matrix', ->
+        expect(isLowerTriangular [[5]] ).to.equal yes
+      it 'should return yes for a three by three L matrix', ->
+        threeLowerTriangularMatrix = [[1, 0, 0]
+                                      [1, 3, 0]
+                                      [7, 5, 9]]
+        expect(isLowerTriangular threeLowerTriangularMatrix).to.equal yes
+      it 'should return no for an almost three by three L matrix', ->
+        threeAlmostLowerTriangularMatrix = [[1, 0, 1]
+                                            [1, 3, 0]
+                                            [7, 5, 9]]
+        expect(isLowerTriangular threeAlmostLowerTriangularMatrix).to.equal no
+      it 'should return yes for rectangular lower triangular matrix', ->
+        rectangularLowerTriangularMatrix = [[1, 0, 0, 0]
+                                            [5, 8, 0, 0]]
+        expect(isLowerTriangular rectangularLowerTriangularMatrix ).to.equal yes
+      it 'should return yes for single column matrix', ->
+        expect(isLowerTriangular [[1]
+                                  [2]] ).to.equal yes
+      it 'should return no for single row matrix of all non-zero values', ->
+        expect(isLowerTriangular [[1, 2]] ).to.equal no
+
+    describe 'isUpperTriangular', ->
+      {isUpperTriangular} = arrays
+      it 'should return no for empty matrix', ->
+        expect(isUpperTriangular empty ).to.equal no
+      it 'should return yes for one by one matrix', ->
+        expect(isUpperTriangular [[5]] ).to.equal yes
+      it 'should return yes for a three by three U matrix', ->
+        threeUpperTriangularMatrix = [[1, 1, 7]
+                                      [0, 3, 5]
+                                      [0, 0, 9]]
+        expect(isUpperTriangular threeUpperTriangularMatrix ).to.equal yes
+      it 'should return no for an almost three by three U matrix', ->
+        threeAlmostUpperTriangularMatrix = [[1, 1, 7]
+                                            [0, 3, 5]
+                                            [1, 0, 9]]
+        expect(isUpperTriangular threeAlmostUpperTriangularMatrix ).to.equal no
+      it 'should return yes for single row matrix', ->
+        expect(isUpperTriangular [[1,2]] ).to.equal yes
+      it 'should return no for single column matrix of all non-zero values', ->
+        expect(isUpperTriangular [[1]
+                                  [2]] ).to.equal no
+      it 'should return yes for rectangular upper triangular matrix', ->
+        rectangularUpperTriangularMatrix = [[1, 5]
+                                            [0, 8]
+                                            [0, 0]]
+        expect(isUpperTriangular rectangularUpperTriangularMatrix ).to.equal yes
 
   describe 'copy', ->
     {copy} = arrays

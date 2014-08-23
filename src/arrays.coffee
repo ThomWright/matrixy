@@ -62,6 +62,31 @@ t.getSize = (arrays) ->
   [numOfRows, numOfCols] = t.getDimensions(arrays)
   "#{numOfRows}x#{numOfCols}"
 
+# @param arrays [Array<Array<Number>>]
+# @return [Boolean]
+t.isLowerTriangular = (arrays) ->
+  [numOfRows, numOfColumns] = t.getDimensions arrays
+  return no if numOfRows is 0 or numOfColumns is 0
+  return yes if numOfColumns is 1
+
+  for i in [0...numOfRows]
+    for j in [(i + 1)...numOfColumns]
+      return no if arrays[i][j] isnt 0
+  return yes
+
+# @param arrays [Array<Array<Number>>]
+# @return [Boolean]
+t.isUpperTriangular = (arrays) ->
+  [numOfRows, numOfColumns] = t.getDimensions arrays
+  return no if numOfRows is 0 or numOfColumns is 0
+  return yes if numOfRows is 1
+
+  for i in [1...numOfRows]
+    rowToCountTo = Math.min(i - 1, numOfColumns - 1)
+    for j in [0..rowToCountTo]
+      return no if arrays[i][j] isnt 0
+  return yes
+
 combine = (a1, a2, f) ->
   r = new Array(t.getNumOfRows a1 )
   for i in [0...t.getNumOfRows a1 ]
