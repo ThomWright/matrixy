@@ -186,3 +186,37 @@ t.decompose = (arrays) ->
         u[j][k] -= l[j][i] * u[i][k] # row = row - factor*topRowInSubset
 
   return {l: l, u: u, p: p }
+
+# Solve the matrix equation Ax = b for x.
+# @param A [Array<Array<Number>>] NxN
+# @param b [Array<Array<Number>>] Nx1
+# @return [Array<Array<Number>>] Nx1
+@solve = (A, b) ->
+  # TODO assert sizes are correct
+  size = t.getNumOfRows A
+
+  {l, u, p} = t.decompose A
+  pb = t.multiply p, b
+  y = t.createBlank size, 1
+
+  ###
+  TODO optimise by treating x (and y) as a single array, then copy into a 1 column matrix?
+  ###
+
+  # Solve Ly = Pb where y = Ux using forward substitution
+  for rowIndex in [0...size]
+    y[rowIndex][0] = pb[rowIndex][0]
+    for colIndex in [0...rowIndex]
+      y[rowIndex][0] -= l[rowIndex][colIndex] * y[colIndex][0]
+    y[rowIndex][0] /= l[rowIndex][rowIndex]
+
+  x = t.createBlank size, 1
+
+  # Solve Ux = y using backward substitution
+  for rowIndex in [size - 1..0]
+    x[rowIndex][0] = y[rowIndex][0]
+    for colIndex in [rowIndex + 1...size]
+      x[rowIndex][0] -= u[rowIndex][colIndex] * x[colIndex][0]
+    x[rowIndex][0] /= u[rowIndex][rowIndex]
+
+  x

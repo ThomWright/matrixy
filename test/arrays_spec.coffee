@@ -223,3 +223,16 @@ describe 'Array Functions:', ->
         catch error
           expect(error).to.have.ownProperty 'cause'
           expect(error.cause).to.eql singularMatrix
+
+  describe 'Equation solver', ->
+    {solve} = arrays
+    it 'should solve a matrix equation of the form Ax=b for x', ->
+      A = [[1, 1, 1]
+           [0, 2, 5]
+           [2, 5, - 1]]
+      b = [[6]
+           [ - 4]
+           [27]]
+      expect(solve A, b ).to.eql [[5]
+                                  [3]
+                                  [ - 2]]
