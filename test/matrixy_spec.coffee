@@ -1,5 +1,5 @@
 matrixy = require '../src/matrixy'
-{createMatrix} = require '../src/matrixy'
+{createMatrix} = matrixy
 
 describe 'matrixy:', ->
   describe 'createMatrix', ->
@@ -25,3 +25,17 @@ describe 'matrixy:', ->
       expect(p ).to.eql matrix
       expect(p() ).to.eql matrix()
 
+  describe 'Basic arithmetic:', ->
+    twoByThree = createMatrix [[1, 2, 3]
+                               [4, 5, 6]]
+    threeByTwo = createMatrix [[1, 2]
+                               [3, 4]
+                               [5, 6]]
+    describe 'Addition', ->
+      {plus} = matrixy
+      it "should throw an error if the matrices aren't the same size", ->
+        expect(-> twoByThree plus threeByTwo ).to.throw /.*Matrix size.*/
+      it 'should add two 2x3 matrices', ->
+        result = twoByThree plus twoByThree
+        expect(result() ).to.eql [[2, 4, 6]
+                                  [8, 10, 12]]

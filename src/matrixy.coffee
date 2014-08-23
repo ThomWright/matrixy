@@ -4,13 +4,12 @@ arrayFns = require './arrays'
 createMatrix = (arrays) ->
   expect(arrays, 'createMatrix').to.not.be.empty
   expect(arrays[0], 'createMatrix').to.not.be.empty
-  matrix = (op) ->
-    op?(matrix) or arrays
+  wrapper = (op) ->
+    op?(wrapper) or arrays
 
-# Lol performance
 createImmutableMatrix = (arrays) ->
-  matrix = (op) ->
-    op?(matrix) or arrayFns.copy arrays
+  wrapper = (op) ->
+    op?(wrapper) or arrayFns.copy arrays
 
 # ([[]] -> [[]]) -> Matrix -> Matrix
 lift = (arrayFunction) ->
@@ -21,7 +20,6 @@ lift = (arrayFunction) ->
 lift2 = (fOfTwoArrays) ->
   (m2) ->
     (m1) ->
-      # console.log m1
       createMatrix \
         fOfTwoArrays m1(), m2()
 
@@ -40,7 +38,14 @@ innerArraysOf = lift (arrays) -> arrays
 
 sizeOf = lift arrayFns.getSize
 
-plus = lift2 arrayFns.add
+checkSizesMatch = (a1, a2) ->
+  size1 = arrayFns.getSize a1
+  size2 = arrayFns.getSize a2
+  expect(size1, 'Matrix size').to.equal size2
+
+plus = lift2 (a1, a2) ->
+  checkSizesMatch a1, a2
+  arrayFns.add a1, a2
 
 module.exports =
   createMatrix: createMatrix
