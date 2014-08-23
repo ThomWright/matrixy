@@ -19,6 +19,18 @@ describe 'Array Functions:', ->
       it 'should throw an exception when size is <0', ->
         expect(-> createIdentity -1).to.throw()
 
+    describe 'createBlank', ->
+      {createBlank} = arrays
+      it 'should create an empty matrix when given zero size', ->
+        expect(createBlank(0) ).to.eql [[]]
+
+      it 'should create a 2x2 matrix of all zeros', ->
+        expect(createBlank(2, 3)).to.eql [[0, 0, 0]
+                                          [0, 0, 0]]
+      it 'should create a square matrix when given one parameter', ->
+        expect(createBlank(2)).to.eql [[0, 0]
+                                       [0, 0]]
+
   describe 'Dimensions:', ->
     describe 'isEmpty', ->
       {isEmpty} = arrays

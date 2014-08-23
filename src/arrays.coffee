@@ -1,6 +1,8 @@
 # module.exports
 t = @
 
+# @param size [Integer]
+# @return [Array<Array<Number>>] The identity matrix of given size.
 t.createIdentity = (size) ->
   if size is 0
     return [[]]
@@ -9,6 +11,18 @@ t.createIdentity = (size) ->
     arrays[i] = new Array(size)
     for j in [0...size]
       arrays[i][j] = if i is j then 1 else 0
+
+# @param numOfRows [Integer]
+# @param numOfCols [Integer] Defaults to numOfRows.
+# @return [Array<Array<Number>>] The identity matrix of given size.
+t.createBlank = (numOfRows, numOfCols = numOfRows) ->
+  if numOfRows is 0 or numOfCols is 0
+    return [[]]
+  b = new Array(numOfRows)
+  for i in [0...numOfRows]
+    b[i] = new Array(numOfCols)
+    for j in [0...numOfCols]
+      b[i][j] = 0
 
 # @param arrays [Array<Array<Number>>] Matrix to copy.
 # @return [Array<Array<Number>>]
