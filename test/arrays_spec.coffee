@@ -207,8 +207,14 @@ describe 'Array Functions:', ->
     it 'should return {l,u,p} where LU ~= PA for floating point solutions', ->
       {l, u, p} = decompose fiveMatrix
       expect(multiply l, u ).to.almost.eql(multiply p, fiveMatrix, 14)
-    it 'should return a lower triangular matrix'
-    it 'should return an upper triangular matrix'
+    it 'should return a lower triangular matrix', ->
+      {isLowerTriangular} = arrays
+      {l} = decompose fiveMatrix
+      expect(isLowerTriangular l).to.be.true
+    it 'should return an upper triangular matrix', ->
+      {isUpperTriangular} = arrays
+      {u} = decompose fiveMatrix
+      expect(isUpperTriangular u).to.be.true
     it 'should throw an exception for non-square matrices', ->
       expect(-> decompose [[1, 2]] ).to.throw "LU Decomposition not implemented for non-square matrices."
 
