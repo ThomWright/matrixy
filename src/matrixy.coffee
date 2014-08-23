@@ -30,6 +30,16 @@ get = (row, col) ->
   (m) ->
     m()[row][col]
 
+set = (row, col) ->
+  {
+    to: (value) ->
+      (m) ->
+        m()[row][col] = value
+    plusEquals: (value) ->
+      (m) ->
+        m()[row][col] += value
+  }
+
 numOfRowsOf = lift arrayFns.getNumOfRows
 
 numOfColsOf = lift arrayFns.getNumOfColumns
@@ -51,6 +61,7 @@ module.exports =
   createMatrix: createMatrix
   createImmutableMatrix: createImmutableMatrix
   get: get
+  set: set
   plus: plus
   sizeOf: sizeOf
   innerArraysOf: innerArraysOf

@@ -25,12 +25,33 @@ describe 'matrixy:', ->
       expect(p ).to.eql matrix
       expect(p() ).to.eql matrix()
 
+  describe 'get()', ->
+    {get} = matrixy
+    it 'should get the correct entry', ->
+      m = createMatrix [[1, 2, 3]]
+      expect(m get(0, 1) ).to.equal 2
+
+  describe 'set', ->
+    {set, get} = matrixy
+    describe 'set().to()', ->
+      it 'should set an entry in the matrix', ->
+        m = createMatrix [[1, 2, 3]]
+        m set(0, 1).to(6)
+        expect(m get(0, 1) ).to.equal 6
+
+    describe 'set().plusEquals()', ->
+      it 'should be equivalent to +=', ->
+        m = createMatrix [[1, 2, 3]]
+        m set(0, 1).plusEquals(4)
+        expect(m get(0, 1) ).to.equal 6
+
   describe 'Basic arithmetic:', ->
     twoByThree = createMatrix [[1, 2, 3]
                                [4, 5, 6]]
     threeByTwo = createMatrix [[1, 2]
                                [3, 4]
                                [5, 6]]
+
     describe 'Addition', ->
       {plus} = matrixy
       it "should throw an error if the matrices aren't the same size", ->
