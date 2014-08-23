@@ -3,9 +3,9 @@ arrayFns = require './arrays'
 {compose, createLiftFunctions} = require './functional_utils'
 
 {liftInput, lift2} = createLiftFunctions {
-    wrap: (arrays) -> createMatrix arrays
-    unwrap: (matrix) -> matrix()
-  }
+  wrap: (arrays) -> createMatrix arrays
+  unwrap: (matrix) -> matrix()
+}
 
 createMatrix = (arrays) ->
   expect(arrays, 'createMatrix').to.not.be.empty

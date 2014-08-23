@@ -3,7 +3,7 @@ t = @
 
 # @param size [Integer]
 # @return [Array<Array<Number>>] The identity matrix of given size.
-t.createIdentity = (size) ->
+@createIdentity = (size) ->
   if size is 0
     return [[]]
   arrays = new Array(size)
@@ -15,7 +15,7 @@ t.createIdentity = (size) ->
 # @param numOfRows [Integer]
 # @param numOfCols [Integer] Defaults to numOfRows.
 # @return [Array<Array<Number>>] The identity matrix of given size.
-t.createBlank = (numOfRows, numOfCols = numOfRows) ->
+@createBlank = (numOfRows, numOfCols = numOfRows) ->
   if numOfRows is 0 or numOfCols is 0
     return [[]]
   b = new Array(numOfRows)
@@ -26,7 +26,7 @@ t.createBlank = (numOfRows, numOfCols = numOfRows) ->
 
 # @param arrays [Array<Array<Number>>] Matrix to copy.
 # @return [Array<Array<Number>>]
-t.copy = (arrays) ->
+@copy = (arrays) ->
   newMatrix = new Array(t.getNumOfRows arrays)
   for row, i in arrays
     newMatrix[i] = new Array(t.getNumOfColumns arrays)
@@ -35,7 +35,7 @@ t.copy = (arrays) ->
 
 # @param arrays [Array<Array<Number>>]
 # @return [Boolean]
-t.isEmpty = (arrays) ->
+@isEmpty = (arrays) ->
   if arrays.length is 0 or arrays[0].length is 0
     yes
   else
@@ -43,14 +43,14 @@ t.isEmpty = (arrays) ->
 
 # @param arrays [Array<Array<Number>>]
 # @return [Boolean]
-t.isSquare = (arrays) ->
+@isSquare = (arrays) ->
   if t.isEmpty arrays
     no
   else
     t.getNumOfRows(arrays) is t.getNumOfColumns(arrays)
 
 # @return [Integer]
-t.getNumOfColumns = (arrays) ->
+@getNumOfColumns = (arrays) ->
   if arrays.length is 0
     0
   else
@@ -58,7 +58,7 @@ t.getNumOfColumns = (arrays) ->
 
 # @param arrays [Array<Array<Number>>]
 # @return [Integer]
-t.getNumOfRows = (arrays) ->
+@getNumOfRows = (arrays) ->
   if t.isEmpty arrays
     0
   else if arrays[0].length > 0
@@ -66,19 +66,19 @@ t.getNumOfRows = (arrays) ->
 
 # @param arrays [Array<Array<Number>>]
 # @return [Array<Integer>]
-t.getDimensions = (arrays) ->
+@getDimensions = (arrays) ->
   [t.getNumOfRows(arrays), t.getNumOfColumns(arrays) ]
 
 # Get a string representation of the matrix size.
 # @param arrays [Array<Array<Number>>]
 # @return [String]
-t.getSize = (arrays) ->
+@getSize = (arrays) ->
   [numOfRows, numOfCols] = t.getDimensions(arrays)
   "#{numOfRows}x#{numOfCols}"
 
 # @param arrays [Array<Array<Number>>]
 # @return [Boolean]
-t.isLowerTriangular = (arrays) ->
+@isLowerTriangular = (arrays) ->
   [numOfRows, numOfColumns] = t.getDimensions arrays
   return no if numOfRows is 0 or numOfColumns is 0
   return yes if numOfColumns is 1
@@ -90,7 +90,7 @@ t.isLowerTriangular = (arrays) ->
 
 # @param arrays [Array<Array<Number>>]
 # @return [Boolean]
-t.isUpperTriangular = (arrays) ->
+@isUpperTriangular = (arrays) ->
   [numOfRows, numOfColumns] = t.getDimensions arrays
   return no if numOfRows is 0 or numOfColumns is 0
   return yes if numOfRows is 1
@@ -111,19 +111,19 @@ combine = (a1, a2, f) ->
 # @param a1 [Array<Array<Number>>]
 # @param a2 [Array<Array<Number>>]
 # @return [Array<Array<Number>>]
-t.add = (a1, a2) ->
+@add = (a1, a2) ->
   combine a1, a2, (n1, n2) -> n1 + n2
 
 # @param a1 [Array<Array<Number>>]
 # @param a2 [Array<Array<Number>>]
 # @return [Array<Array<Number>>]
-t.subtract = (a1, a2) ->
+@subtract = (a1, a2) ->
   combine a1, a2, (n1, n2) -> n1 - n2
 
 # @param a1 [Array<Array<Number>>]
 # @param a2 [Array<Array<Number>>]
 # @return [Array<Array<Number>>]
-t.multiply = (a1, a2) ->
+@multiply = (a1, a2) ->
   r = new Array(t.getNumOfRows a1 )
 
   for i in [0...t.getNumOfRows a1 ]
@@ -138,7 +138,7 @@ t.multiply = (a1, a2) ->
 # @param arrays [Array<Array<Number>>]
 # @throw [SingularMatrixException]
 # @return [LUP] Lower and upper triangular matrices, and a permutation matrix.
-t.decompose = (arrays) ->
+@decompose = (arrays) ->
   if t.isEmpty arrays
     return {l: [[]], u: [[]], p: [[]] }
   if not t.isSquare arrays
@@ -193,9 +193,12 @@ t.decompose = (arrays) ->
 # @return [Array<Array<Number>>] Nx1
 @solve = (A, b) ->
   # TODO assert sizes are correct
-  size = t.getNumOfRows A
-
   {l, u, p} = t.decompose A
+  solve {l, u, p}, b
+
+solve = ({l, u, p}, b) ->
+  size = t.getNumOfRows b
+
   pb = t.multiply p, b
   y = t.createBlank size, 1
 
@@ -220,3 +223,22 @@ t.decompose = (arrays) ->
     x[rowIndex][0] /= u[rowIndex][rowIndex]
 
   x
+
+@transpose = (arrays) ->
+  trans = new Array()
+  for i in [0...t.getNumOfColumns arrays]
+    trans[i] = new Array()
+    for j in [0...t.getNumOfRows arrays]
+      trans[i][j] = arrays[j][i]
+
+@invert = (arrays) ->
+  size = t.getNumOfRows arrays
+  identity = t.createIdentity size
+  {l, u, p} = t.decompose arrays
+
+  columns = new Array()
+  for i in [0...size]
+    columnOfIdentity = t.transpose [identity[i]]
+    columns[i] = solve({l, u, p}, columnOfIdentity)[0]
+
+  t.transpose columns

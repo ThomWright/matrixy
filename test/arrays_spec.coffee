@@ -244,3 +244,23 @@ describe 'Array Functions:', ->
       expect(solve A, b ).to.eql [[5]
                                   [3]
                                   [ - 2]]
+
+  describe 'transpose()', ->
+    {transpose} = arrays
+    it 'should transpose a matrix', ->
+      m = [[1, 2, 3]
+           [4, 5, 6]]
+      expect(transpose m ).to.eql [[1, 4]
+                                   [2, 5]
+                                   [3, 6]]
+
+  describe 'invert()', ->
+    {invert} = arrays
+    it 'should invert a matrix', ->
+      invertable = [[2, -1, 0]
+                    [-1, 2, -1]
+                    [0, -1, 2]]
+
+      expect(invert invertable).to.almost.eql [[0.75, 0.5, 0.25]
+                                               [0.5, 1, 0.5]
+                                               [0.25, 0.5, 0.75]], 10
