@@ -1,6 +1,22 @@
 arrays = require '../src/arrays'
 
 describe 'Array Functions:', ->
+  describe 'Creating 2D arrays:', ->
+    describe 'createIdentity', ->
+      {createIdentity} = arrays
+      it 'should create an empty matrix when size is 0', ->
+        empty = createIdentity 0
+        expect(empty).to.eql [[]]
+      it 'should create a 1x1 identity matrix', ->
+        identity1x1 = createIdentity 1
+        expect(identity1x1).to.eql [[1]]
+      it 'should create a 2x2 identity matrix', ->
+        identity2x2 = createIdentity 2
+        expect(identity2x2).to.eql [[1, 0]
+                                    [0, 1]]
+      it 'should throw an exception when size is <0', ->
+        expect(-> createIdentity -1).to.throw()
+
   describe 'Dimensions:', ->
     describe 'isEmpty', ->
       {isEmpty} = arrays

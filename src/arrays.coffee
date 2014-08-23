@@ -1,6 +1,15 @@
 # module.exports
 t = @
 
+t.createIdentity = (size) ->
+  if size is 0
+    return [[]]
+  arrays = new Array(size)
+  for i in [0...size]
+    arrays[i] = new Array(size)
+    for j in [0...size]
+      arrays[i][j] = if i is j then 1 else 0
+
 # @param arrays [Array<Array<Number>>] Matrix to copy.
 # @return [Array<Array<Number>>]
 t.copy = (arrays) ->
