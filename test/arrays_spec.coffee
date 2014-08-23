@@ -118,3 +118,40 @@ describe 'Array Functions:', ->
         expect(multiply threeByThree, threeByOne ).to.eql [[27]
                                                            [ - 4]
                                                            [6]]
+
+  describe 'LU Decomposition', ->
+    {decompose, multiply} = arrays
+    squareMatrix = [[1, 2]
+                    [3, 4]]
+    fiveMatrix = [[4, 7, 7, 2, 0]
+                  [3, 4, 8, 8, 0]
+                  [1, 5, 2, 9, 6]
+                  [6, 1, 2, 2, 1]
+                  [6, 4, 8, 2, 8]]
+    it 'should decompose an empty matrix into empty {l,u,p}', ->
+      {l, u, p} = decompose [[]]
+      expect(l).to.eql [[]]
+      expect(u).to.eql [[]]
+      expect(p).to.eql [[]]
+    it 'should return {l,u,p} where LU == PA for integer solutions', ->
+      {l, u, p} = decompose squareMatrix
+      expect(multiply l, u ).to.eql(multiply p, squareMatrix )
+    it 'should return {l,u,p} where LU ~= PA for floating point solutions', ->
+      {l, u, p} = decompose fiveMatrix
+      expect(multiply l, u ).to.almost.eql(multiply p, fiveMatrix, 14)
+    it 'should return a lower triangular matrix'
+    it 'should return an upper triangular matrix'
+    it 'should throw an exception for non-square matrices', ->
+      expect(-> decompose [[1, 2]] ).to.throw "LU Decomposition not implemented for non-square matrices."
+
+    describe 'Singular matrix handling', ->
+      singularMatrix = [[0, 1]
+                        [0, 1]]
+      it 'should throw an exception for singular matrices', ->
+        expect(-> decompose singularMatrix ).to.throw "Singular matrix"
+      it 'should throw an exception which contains the problem matrix', ->
+        try
+          decompose singularMatrix
+        catch error
+          expect(error).to.have.ownProperty 'cause'
+          expect(error.cause).to.eql singularMatrix

@@ -81,3 +81,56 @@ t.multiply = (a1, a2) ->
       for k in [0...t.getNumOfColumns a1 ]
         r[i][j] += a1[i][k] * a2[k][j]
   return r
+
+# Decompose this matrix into lower and upper triangular matrices.
+# @throw [SingularMatrixException]
+# @return [LUP] Lower and upper triangular matrices, and a permutation matrix.
+t.decompose = (arrays) ->
+  if t.isEmpty arrays
+    return {l: [[]], u: [[]], p: [[]] }
+  if not t.isSquare arrays
+    throw {
+      name: 'NotImplementedException',
+      message: 'LU Decomposition not implemented for non-square matrices.'
+    }
+
+  size = t.getNumOfRows(arrays)
+
+  # initialise l and u
+  l = t.createIdentity size
+  u = t.copy arrays
+  p = t.createIdentity size
+
+  ###
+  Gaussian elimination w / partial pivoting
+  ###
+  for i in [0...size - 1] # reduce size of square subset each iteration
+    # choose pivot
+    pivotRowIndex = i
+    maxFirstElement = u[i][i]
+    for r in [i...size] # for rows in sub-square
+      if u[r][i] > maxFirstElement
+        maxFirstElement = u[r][i]
+        pivotRowIndex = r
+    if maxFirstElement is 0
+      throw {
+        name: 'SingularMatrixException',
+        message: 'Singular matrix'
+        cause: arrays
+      }
+
+    # row swap
+    if pivotRowIndex isnt i
+      for e in [i...size] # swap rows in u
+        [u[i][e], u[pivotRowIndex][e]] = [u[pivotRowIndex][e], u[i][e]]
+      for e in [0...i] # swap rows in l
+        [l[i][e], l[pivotRowIndex][e]] = [l[pivotRowIndex][e], l[i][e]]
+      [p[i], p[pivotRowIndex]] = [p[pivotRowIndex], p[i]]
+
+    # Gaussian Elimination
+    for j in [i + 1...size] # for every row in this sub-square
+      l[j][i] = u[j][i] / u[i][i] # work out the factor to make first element zero
+      for k in [i...size] # for each element in row in sub-square
+        u[j][k] -= l[j][i] * u[i][k] # row = row - factor*topRowInSubset
+
+  return {l: l, u: u, p: p }
