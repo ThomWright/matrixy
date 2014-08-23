@@ -92,14 +92,16 @@ describe 'matrixy:', ->
                          [4, 5, 6]]
     b2x3 = createMatrix [[1, 1, 1]
                          [1, 1, 1]]
-    threeByTwo = createMatrix [[1, 2]
-                               [3, 4]
-                               [5, 6]]
+    a2x2 = createMatrix [[1, 2]
+                         [3, 4]]
+    a3x2 = createMatrix [[7, 8]
+                         [9, 10]
+                         [11, 12]]
 
     describe 'Addition', ->
       {plus} = matrixy
       it "should throw an error if the matrices aren't the same size", ->
-        expect(-> a2x3 plus threeByTwo ).to.throw /.*Matrix size.*/
+        expect(-> a2x3 plus a3x2 ).to.throw /.*Matrix size.*/
       it 'should add two 2x3 matrices', ->
         result = a2x3 plus a2x3
         expect(result() ).to.eql [[2, 4, 6]
@@ -108,8 +110,28 @@ describe 'matrixy:', ->
     describe 'Subtraction', ->
       {minus} = matrixy
       it "should throw an error if the matrices aren't the same size", ->
-        expect(-> a2x3 minus threeByTwo ).to.throw /.*Matrix size.*/
+        expect(-> a2x3 minus a3x2 ).to.throw /.*Matrix size.*/
       it 'should subtract two 2x3 matrices', ->
         result = a2x3 minus b2x3
         expect(result() ).to.eql [[0, 1, 2]
                                   [3, 4, 5]]
+
+    describe 'Multiplication', ->
+      {times} = matrixy
+      it "should throw an error if the number of rows/columns don't match", ->
+        expect(-> a2x3 times a2x2 ).to.throw "Can't multiply a 2x3 matrix by a 2x2 matrix."
+      it 'should multiply two matrices of different sizes', ->
+        result = a2x3 times a3x2
+        expect(result() ).to.eql [[ 58, 64]
+                                  [139, 154]]
+      it 'should multiply a 3x3 by a 3x1 matrix to form a non-square matrix', ->
+        a3x3 = createMatrix [[0, 0, 1]
+                             [0, 1, 0]
+                             [1, 0, 0]]
+        a3x1 = createMatrix [[6]
+                             [ - 4]
+                             [27]]
+        result = a3x3 times a3x1
+        expect(result() ).to.eql [[27]
+                                  [ - 4]
+                                  [6]]

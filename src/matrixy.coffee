@@ -51,6 +51,17 @@ checkSizesMatch = (a1, a2) ->
   size2 = arrayFns.getSize a2
   expect(size1, 'Matrix size').to.equal size2
 
+checkCanMultiply = (a1, a2) ->
+  numOfColsIn1 = arrayFns.getNumOfColumns a1
+  numOfRowsIn2 = arrayFns.getNumOfRows a2
+  if numOfColsIn1 isnt numOfRowsIn2
+    size1 = arrayFns.getSize a1
+    size2 = arrayFns.getSize a2
+    throw {
+      name: 'IllegalArgumentException'
+      message: "Can't multiply a #{size1} matrix by a #{size2} matrix."
+    }
+
 plus = lift2 (a1, a2) ->
   checkSizesMatch a1, a2
   arrayFns.add a1, a2
@@ -58,6 +69,10 @@ plus = lift2 (a1, a2) ->
 minus = lift2 (a1, a2) ->
   checkSizesMatch a1, a2
   arrayFns.subtract a1, a2
+
+times = lift2 (a1, a2) ->
+  checkCanMultiply a1, a2
+  arrayFns.multiply a1, a2
 
 module.exports =
   createMatrix: createMatrix
@@ -69,6 +84,7 @@ module.exports =
   set: set
   plus: plus
   minus: minus
+  times: times
   sizeOf: sizeOf
   innerArraysOf: innerArraysOf
   numOfRowsOf: numOfRowsOf
