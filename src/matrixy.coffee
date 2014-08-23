@@ -1,5 +1,11 @@
 arrayFns = require './arrays'
 {expect} = require 'chai'
+{compose, createLiftFunctions} = require './functional_utils'
+
+{liftInput, lift2} = createLiftFunctions {
+    wrap: (arrays) -> createMatrix arrays
+    unwrap: (matrix) -> matrix()
+  }
 
 createMatrix = (arrays) ->
   expect(arrays, 'createMatrix').to.not.be.empty
@@ -10,23 +16,6 @@ createMatrix = (arrays) ->
 createImmutableMatrix = (arrays) ->
   wrapper = (op) ->
     op?(wrapper) or arrayFns.copy arrays
-
-compose = (f, g) ->
-  ->
-    args = Array::slice.call arguments
-    f g.apply @, args
-
-# ([[]] -> [[]]) -> Matrix -> Matrix
-lift = (arrayFunction) ->
-  (m) ->
-    arrayFunction m()
-
-# ([[]], [[]] -> [[]]) -> Matrix -> Matrix -> Matrix
-lift2 = (fOfTwoArrays) ->
-  (m2) ->
-    (m1) ->
-      createMatrix \
-        fOfTwoArrays m1(), m2()
 
 ###
 Matrix Functions
@@ -49,13 +38,13 @@ set = (row, col) ->
         m()[row][col] += value
   }
 
-numOfRowsOf = lift arrayFns.getNumOfRows
+numOfRowsOf = liftInput arrayFns.getNumOfRows
 
-numOfColsOf = lift arrayFns.getNumOfColumns
+numOfColsOf = liftInput arrayFns.getNumOfColumns
 
-innerArraysOf = lift (arrays) -> arrays
+innerArraysOf = liftInput (arrays) -> arrays
 
-sizeOf = lift arrayFns.getSize
+sizeOf = liftInput arrayFns.getSize
 
 checkSizesMatch = (a1, a2) ->
   size1 = arrayFns.getSize a1
