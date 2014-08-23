@@ -54,6 +54,19 @@ describe 'matrixy:', ->
       expect(p ).to.eql matrix
       expect(p() ).to.eql matrix()
 
+  describe 'copy(matrix)', ->
+    {copy} = matrixy
+    it 'should make a copy of a matrix', ->
+      m = createMatrix [[1, 2]]
+      c = copy m
+      expect(c()).to.eql m()
+    it 'should return a copy, not a reference', ->
+      {set, get} = matrixy
+      m = createMatrix [[1, 2]]
+      c = copy m
+      m set(0, 0).to 23
+      expect(c get(0, 0)).to.eql 1
+
   describe 'get()', ->
     {get} = matrixy
     it 'should get the correct entry', ->

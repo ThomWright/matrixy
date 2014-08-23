@@ -24,6 +24,9 @@ createIdentityMatrix = compose createMatrix, arrayFns.createIdentity
 
 createBlankMatrix = compose createMatrix, arrayFns.createBlank
 
+copy = (matrix) ->
+  createMatrix arrayFns.copy matrix()
+
 get = (row, col) ->
   (m) ->
     m()[row][col]
@@ -60,6 +63,7 @@ module.exports =
   createImmutableMatrix: createImmutableMatrix
   createIdentityMatrix: createIdentityMatrix
   createBlankMatrix: createBlankMatrix
+  copy: copy
   get: get
   set: set
   plus: plus
