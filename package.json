@@ -7,7 +7,6 @@
     "test"          : "test"
   },
   "dependencies"    : {
-    "amdefine"      : ">=0.1",
     "chai"          : "~1.9"
   },
   "devDependencies" : {
