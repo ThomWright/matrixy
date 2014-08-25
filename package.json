@@ -10,11 +10,11 @@
     "chai"          : "~1.9"
   },
   "devDependencies" : {
-    "mocha"         : "~1.17",
+    "mocha"         : "~1.21",
     "chai"          : "~1.9",
     "chai-stats"    : "~0.3",
     "coffee-script" : "~1.7",
-    "coffeelint"    : "~1.3",
+    "coffeelint"    : "~1.5",
     "jsdoc"         : "~3"
   },
   "scripts"         : {
