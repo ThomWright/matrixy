@@ -1,3 +1,7 @@
+###*
+ * @module index
+###
+
 matrixy = require './matrixy'
 arrays = require './arrays'
 

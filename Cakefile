@@ -21,7 +21,11 @@ build = ({watch, callback} = {}) ->
   launch 'coffee', options, callback
 
 doc = ->
-  launch './node_modules/.bin/codo'
+  options = [
+    './lib/'
+    '-d', './docs'
+  ]
+  launch './node_modules/.bin/jsdoc', options
 
 mocha = (options, callback) ->
   options ?= [

@@ -1,8 +1,0 @@
---name       "Matrixy"
---readme     README.md
---title      "Matrixy Documentation"
---extension  coffee
---output     ./doc
-./src
--
-LICENSE

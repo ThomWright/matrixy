@@ -1,9 +1,15 @@
+###*
+ * @module arrays
+###
+
 # @private
 # Internal reference to module.exports.
 t = @
 
-# @param size [Integer]
-# @return [Array<Array<Number>>] The identity 2D array of given size.
+###*
+ * @param {!integer} size
+ * @return {Array.<Array.<number>>} The identity 2D array of given size.
+###
 @createIdentity = (size) ->
   if size is 0
     return [[]]
@@ -13,9 +19,11 @@ t = @
     for j in [0...size]
       arrays[i][j] = if i is j then 1 else 0
 
-# @param numOfRows [Integer]
-# @param numOfCols [Integer] Defaults to numOfRows.
-# @return [Array<Array<Number>>] The blank (zeros) 2D array of given size.
+###*
+ * @param {!integer} numOfRows
+ * @param {integer} [numOfCols=numOfRows]
+ * @return {Array.<Array.<number>>} The blank (zeros) 2D array of given size.
+###
 @createBlank = (numOfRows, numOfCols = numOfRows) ->
   if numOfRows is 0 or numOfCols is 0
     return [[]]
@@ -25,8 +33,10 @@ t = @
     for j in [0...numOfCols]
       b[i][j] = 0
 
-# @param arrays [Array<Array<Number>>] 2D array to copy.
-# @return [Array<Array<Number>>]
+###*
+ * @param {!Array.<Array.<number>>} arrays - 2D array to copy.
+ * @return {Array.<Array.<number>>}
+###
 @copy = (arrays) ->
   newMatrix = new Array(t.getNumOfRows arrays)
   for row, i in arrays
@@ -34,51 +44,63 @@ t = @
     for e, j in row
       newMatrix[i][j] = e
 
-# @param arrays [Array<Array<Number>>]
-# @return [Boolean]
+###*
+ * @param {!Array.<Array.<number>>} arrays
+ * @return {Boolean}
+###
 @isEmpty = (arrays) ->
   if arrays.length is 0 or arrays[0].length is 0
     yes
   else
     no
 
-# @param arrays [Array<Array<Number>>]
-# @return [Boolean]
+###*
+ * @param {!Array.<Array.<number>>} arrays
+ * @return {Boolean}
+###
 @isSquare = (arrays) ->
   if t.isEmpty arrays
     no
   else
     t.getNumOfRows(arrays) is t.getNumOfColumns(arrays)
 
-# @param arrays [Array<Array<Number>>]
-# @return [Integer]
+###*
+ * @param {!Array.<Array.<number>>} arrays
+ * @return {integer}
+###
 @getNumOfColumns = (arrays) ->
   if arrays.length is 0
     0
   else
     arrays[0].length
 
-# @param arrays [Array<Array<Number>>]
-# @return [Integer]
+###*
+ * @param {!Array.<Array.<number>>} arrays
+ * @return {integer}
+###
 @getNumOfRows = (arrays) ->
   if t.isEmpty arrays
     0
   else if arrays[0].length > 0
     arrays.length
 
-# @param arrays [Array<Array<Number>>]
-# @return [Array<Integer>]
+###*
+ * @param {!Array.<Array.<number>>} arrays
+ * @return {Array.<integer>} e.g. [2, 3] for a 2x3 matrix
+###
 @getDimensions = (arrays) ->
   [t.getNumOfRows(arrays), t.getNumOfColumns(arrays) ]
 
-# Get a string representation of the 2D array size.
-# @param arrays [Array<Array<Number>>]
-# @return [String]
+###*
+ * Get a string representation of the 2D array size.
+ * @param {Array.<Array.<number>>} arrays
+ * @return {String}
+###
 @getSize = (arrays) ->
   [numOfRows, numOfCols] = t.getDimensions(arrays)
   "#{numOfRows}x#{numOfCols}"
 
-# @param arrays [Array<Array<Number>>]
+# @param arrays {Array.<Array.<number>>}
 # @return [Boolean]
 @isLowerTriangular = (arrays) ->
   [numOfRows, numOfColumns] = t.getDimensions arrays
@@ -90,7 +112,7 @@ t = @
       return no if arrays[i][j] isnt 0
   return yes
 
-# @param arrays [Array<Array<Number>>]
+# @param arrays {Array.<Array.<number>>}
 # @return [Boolean]
 @isUpperTriangular = (arrays) ->
   [numOfRows, numOfColumns] = t.getDimensions arrays
@@ -105,10 +127,10 @@ t = @
 
 # Create a new 2D array from a combination of two.
 # @private
-# @param a1 [Array<Array<Number>>]
-# @param a2 [Array<Array<Number>>]
+# @param a1 {Array.<Array.<number>>}
+# @param a2 {Array.<Array.<number>>}
 # @param f [Function] (Number, Number) -> Number
-# @return [Array<Array<Number>>]
+# @return {Array.<Array.<number>>}
 combine = (a1, a2, f) ->
   r = new Array(t.getNumOfRows a1 )
   for i in [0...t.getNumOfRows a1 ]
@@ -116,21 +138,21 @@ combine = (a1, a2, f) ->
     for j in [0...t.getNumOfColumns a1]
       r[i][j] = f a1[i][j], a2[i][j]
 
-# @param a1 [Array<Array<Number>>]
-# @param a2 [Array<Array<Number>>]
-# @return [Array<Array<Number>>]
+# @param a1 {Array.<Array.<number>>}
+# @param a2 {Array.<Array.<number>>}
+# @return {Array.<Array.<number>>}
 @add = (a1, a2) ->
   combine a1, a2, (n1, n2) -> n1 + n2
 
-# @param a1 [Array<Array<Number>>]
-# @param a2 [Array<Array<Number>>]
-# @return [Array<Array<Number>>]
+# @param a1 {Array.<Array.<number>>}
+# @param a2 {Array.<Array.<number>>}
+# @return {Array.<Array.<number>>}
 @subtract = (a1, a2) ->
   combine a1, a2, (n1, n2) -> n1 - n2
 
-# @param a1 [Array<Array<Number>>]
-# @param a2 [Array<Array<Number>>]
-# @return [Array<Array<Number>>]
+# @param a1 {Array.<Array.<number>>}
+# @param a2 {Array.<Array.<number>>}
+# @return {Array.<Array.<number>>}
 @multiply = (a1, a2) ->
   r = new Array(t.getNumOfRows a1 )
 
@@ -143,7 +165,7 @@ combine = (a1, a2, f) ->
   return r
 
 # Decompose this 2D array into lower and upper triangular 2D arrays.
-# @param arrays [Array<Array<Number>>]
+# @param arrays {Array.<Array.<number>>}
 # @throw [SingularMatrixException]
 # @return [LUP] Lower and upper triangular 2D arrays, and a permutation 2D array.
 @decompose = (arrays) ->
@@ -196,9 +218,9 @@ combine = (a1, a2, f) ->
   return {l: l, u: u, p: p }
 
 # Solve the matrix equation Ax = b for x.
-# @param A [Array<Array<Number>>] NxN
-# @param b [Array<Array<Number>>] Nx1
-# @return [Array<Array<Number>>] Nx1
+# @param A {Array.<Array.<number>>} NxN
+# @param b {Array.<Array.<number>>} Nx1
+# @return {Array.<Array.<number>>} Nx1
 @solve = (A, b) ->
   # TODO assert sizes are correct
   {l, u, p} = t.decompose A
@@ -234,8 +256,8 @@ solve = ({l, u, p} , b) ->
   x
 
 # Return a transposed version of the given 2D array.
-# @param arrays [Array<Array<Number>>]
-# @return [Array<Array<Number>>]
+# @param arrays {Array.<Array.<number>>}
+# @return {Array.<Array.<number>>}
 @transpose = (arrays) ->
   trans = new Array()
   for i in [0...t.getNumOfColumns arrays]
@@ -244,8 +266,8 @@ solve = ({l, u, p} , b) ->
       trans[i][j] = arrays[j][i]
 
 # Return an inverted version of the given 2D array.
-# @param arrays [Array<Array<Number>>]
-# @return [Array<Array<Number>>]
+# @param arrays {Array.<Array.<number>>}
+# @return {Array.<Array.<number>>}
 @invert = (arrays) ->
   size = t.getNumOfRows arrays
   identity = t.createIdentity size

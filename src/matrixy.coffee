@@ -1,3 +1,7 @@
+###*
+ * @module matrixy
+###
+
 arrayFns = require './arrays'
 {expect} = require 'chai'
 {compose, createLiftFunctions} = require './functional_utils'
@@ -6,6 +10,11 @@ arrayFns = require './arrays'
   wrap: (arrays) -> createMatrix arrays
   unwrap: (matrix) -> matrix()
 }
+
+###*
+ * A Matrix.
+ * @typedef {function} Matrix
+###
 
 # Create a Matrix from a 2D array.
 # @param arrays [Array<Array<Number>>] 2D array

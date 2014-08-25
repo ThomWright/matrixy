@@ -1,3 +1,7 @@
+###*
+ * @module functional_utils
+###
+
 # @private
 # Internal reference to module.exports.
 t = @
