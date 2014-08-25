@@ -1,8 +1,9 @@
-# module.exports
+# @private
+# Internal reference to module.exports.
 t = @
 
 # @param size [Integer]
-# @return [Array<Array<Number>>] The identity matrix of given size.
+# @return [Array<Array<Number>>] The identity 2D array of given size.
 @createIdentity = (size) ->
   if size is 0
     return [[]]
@@ -14,7 +15,7 @@ t = @
 
 # @param numOfRows [Integer]
 # @param numOfCols [Integer] Defaults to numOfRows.
-# @return [Array<Array<Number>>] The identity matrix of given size.
+# @return [Array<Array<Number>>] The blank (zeros) 2D array of given size.
 @createBlank = (numOfRows, numOfCols = numOfRows) ->
   if numOfRows is 0 or numOfCols is 0
     return [[]]
@@ -24,7 +25,7 @@ t = @
     for j in [0...numOfCols]
       b[i][j] = 0
 
-# @param arrays [Array<Array<Number>>] Matrix to copy.
+# @param arrays [Array<Array<Number>>] 2D array to copy.
 # @return [Array<Array<Number>>]
 @copy = (arrays) ->
   newMatrix = new Array(t.getNumOfRows arrays)
@@ -49,6 +50,7 @@ t = @
   else
     t.getNumOfRows(arrays) is t.getNumOfColumns(arrays)
 
+# @param arrays [Array<Array<Number>>]
 # @return [Integer]
 @getNumOfColumns = (arrays) ->
   if arrays.length is 0
@@ -69,7 +71,7 @@ t = @
 @getDimensions = (arrays) ->
   [t.getNumOfRows(arrays), t.getNumOfColumns(arrays) ]
 
-# Get a string representation of the matrix size.
+# Get a string representation of the 2D array size.
 # @param arrays [Array<Array<Number>>]
 # @return [String]
 @getSize = (arrays) ->
@@ -101,6 +103,12 @@ t = @
       return no if arrays[i][j] isnt 0
   return yes
 
+# Create a new 2D array from a combination of two.
+# @private
+# @param a1 [Array<Array<Number>>]
+# @param a2 [Array<Array<Number>>]
+# @param f [Function] (Number, Number) -> Number
+# @return [Array<Array<Number>>]
 combine = (a1, a2, f) ->
   r = new Array(t.getNumOfRows a1 )
   for i in [0...t.getNumOfRows a1 ]
@@ -134,17 +142,17 @@ combine = (a1, a2, f) ->
         r[i][j] += a1[i][k] * a2[k][j]
   return r
 
-# Decompose this matrix into lower and upper triangular matrices.
+# Decompose this 2D array into lower and upper triangular 2D arrays.
 # @param arrays [Array<Array<Number>>]
 # @throw [SingularMatrixException]
-# @return [LUP] Lower and upper triangular matrices, and a permutation matrix.
+# @return [LUP] Lower and upper triangular 2D arrays, and a permutation 2D array.
 @decompose = (arrays) ->
   if t.isEmpty arrays
     return {l: [[]], u: [[]], p: [[]] }
   if not t.isSquare arrays
     throw {
       name: 'NotImplementedException',
-      message: 'LU Decomposition not implemented for non-square matrices.'
+      message: 'LU Decomposition not implemented for non-square 2D arrays.'
     }
 
   size = t.getNumOfRows(arrays)
@@ -194,9 +202,10 @@ combine = (a1, a2, f) ->
 @solve = (A, b) ->
   # TODO assert sizes are correct
   {l, u, p} = t.decompose A
-  solve {l, u, p}, b
+  solve {l, u, p} , b
 
-solve = ({l, u, p}, b) ->
+# @private
+solve = ({l, u, p} , b) ->
   size = t.getNumOfRows b
 
   pb = t.multiply p, b
@@ -224,6 +233,9 @@ solve = ({l, u, p}, b) ->
 
   x
 
+# Return a transposed version of the given 2D array.
+# @param arrays [Array<Array<Number>>]
+# @return [Array<Array<Number>>]
 @transpose = (arrays) ->
   trans = new Array()
   for i in [0...t.getNumOfColumns arrays]
@@ -231,6 +243,9 @@ solve = ({l, u, p}, b) ->
     for j in [0...t.getNumOfRows arrays]
       trans[i][j] = arrays[j][i]
 
+# Return an inverted version of the given 2D array.
+# @param arrays [Array<Array<Number>>]
+# @return [Array<Array<Number>>]
 @invert = (arrays) ->
   size = t.getNumOfRows arrays
   identity = t.createIdentity size

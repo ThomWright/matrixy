@@ -7,12 +7,19 @@ arrayFns = require './arrays'
   unwrap: (matrix) -> matrix()
 }
 
+# Create a Matrix from a 2D array.
+# @param arrays [Array<Array<Number>>] 2D array
+# @return [Matrix]
 createMatrix = (arrays) ->
   expect(arrays, 'createMatrix').to.not.be.empty
   expect(arrays[0], 'createMatrix').to.not.be.empty
+  # TODO check that the size of the arrays can be a valid matrix
   wrapper = (op) ->
     op?(wrapper) or arrays
 
+# Create an immutable Matrix from a 2D array.
+# @param arrays [Array<Array<Number>>]
+# @return [Matrix]
 createImmutableMatrix = (arrays) ->
   wrapper = (op) ->
     op?(wrapper) or arrayFns.copy arrays
@@ -46,11 +53,13 @@ innerArraysOf = liftInput (arrays) -> arrays
 
 sizeOf = liftInput arrayFns.getSize
 
+# @private
 checkSizesMatch = (a1, a2) ->
   size1 = arrayFns.getSize a1
   size2 = arrayFns.getSize a2
   expect(size1, 'Matrix size').to.equal size2
 
+# @private
 checkCanMultiply = (a1, a2) ->
   numOfColsIn1 = arrayFns.getNumOfColumns a1
   numOfRowsIn2 = arrayFns.getNumOfRows a2

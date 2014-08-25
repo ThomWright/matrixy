@@ -218,7 +218,7 @@ describe 'Array Functions:', ->
       {u} = decompose fiveMatrix
       expect(isUpperTriangular u).to.be.true
     it 'should throw an exception for non-square matrices', ->
-      expect(-> decompose [[1, 2]] ).to.throw "LU Decomposition not implemented for non-square matrices."
+      expect(-> decompose [[1, 2]] ).to.throw "LU Decomposition not implemented for non-square 2D arrays."
 
     describe 'Singular matrix handling', ->
       singularMatrix = [[0, 1]

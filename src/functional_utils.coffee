@@ -1,12 +1,15 @@
-# module.exports
+# @private
+# Internal reference to module.exports.
 t = @
 
-t.compose = (f, g) ->
+# @param f [Function]
+# @param g [Function]
+@compose = (f, g) ->
   ->
     args = Array::slice.call arguments
     f g.apply @, args
 
-t.createLiftFunctions = ({wrap, unwrap}) ->
+@createLiftFunctions = ({wrap, unwrap} ) ->
 
   # (x -> y) -> z -> y
   liftInput: (f) ->
