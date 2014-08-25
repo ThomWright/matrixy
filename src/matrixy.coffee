@@ -2,7 +2,7 @@ arrayFns = require './arrays'
 {expect} = require 'chai'
 {compose, createLiftFunctions} = require './functional_utils'
 
-{liftInput, lift2} = createLiftFunctions {
+{liftInput, lift2, liftAllOutputs} = createLiftFunctions {
   wrap: (arrays) -> createMatrix arrays
   unwrap: (matrix) -> matrix()
 }
@@ -49,9 +49,15 @@ numOfRowsOf = liftInput arrayFns.getNumOfRows
 
 numOfColsOf = liftInput arrayFns.getNumOfColumns
 
-innerArraysOf = liftInput (arrays) -> arrays
+getDimensionsOf = liftInput arrayFns.getDimensions
 
 sizeOf = liftInput arrayFns.getSize
+
+isLowerTriangular = liftInput arrayFns.isLowerTriangular
+
+isUpperTriangular = liftInput arrayFns.isUpperTriangular
+
+innerArraysOf = liftInput (arrays) -> arrays
 
 # @private
 checkSizesMatch = (a1, a2) ->
@@ -83,6 +89,8 @@ times = lift2 (a1, a2) ->
   checkCanMultiply a1, a2
   arrayFns.multiply a1, a2
 
+decompose = liftAllOutputs arrayFns.decompose
+
 module.exports =
   createMatrix: createMatrix
   createImmutableMatrix: createImmutableMatrix
@@ -95,6 +103,10 @@ module.exports =
   minus: minus
   times: times
   sizeOf: sizeOf
+  getDimensionsOf: getDimensionsOf
   innerArraysOf: innerArraysOf
   numOfRowsOf: numOfRowsOf
   numOfColsOf: numOfColsOf
+  isLowerTriangular: isLowerTriangular
+  isUpperTriangular: isUpperTriangular
+  decompose: decompose

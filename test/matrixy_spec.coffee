@@ -1,6 +1,16 @@
 matrixy = require '../src/matrixy'
 {createMatrix} = matrixy
 
+a2x3 = createMatrix [[1, 2, 3]
+                         [4, 5, 6]]
+b2x3 = createMatrix [[1, 1, 1]
+                     [1, 1, 1]]
+a2x2 = createMatrix [[1, 2]
+                     [3, 4]]
+a3x2 = createMatrix [[7, 8]
+                     [9, 10]
+                     [11, 12]]
+
 describe 'matrixy:', ->
   describe 'Matrix creation', ->
     describe 'createMatrix', ->
@@ -39,20 +49,79 @@ describe 'matrixy:', ->
       it 'should create a blank matrix', ->
         blank2x2 = createBlankMatrix 2
         expect(blank2x2() ).to.eql [[0, 0]
-                                       [0, 0]]
+                                    [0, 0]]
 
-  describe 'matrix()', ->
-    it 'should return the inner arrays when given no args', ->
-      matrix = createMatrix [[5, 5]]
-      expect(matrix() ).to.eql [[5, 5]]
+  describe 'matrix wrapper', ->
+    describe 'matrix()', ->
+      it 'should return the inner arrays when given no args', ->
+        matrix = createMatrix [[5, 5]]
+        expect(matrix() ).to.eql [[5, 5]]
 
-  describe 'matrix(f)', ->
-    it 'should call the given function with itself as a param', ->
-      matrix = createMatrix [[1, 2]]
-      p = null
-      matrix (param) -> p = param
-      expect(p ).to.eql matrix
-      expect(p() ).to.eql matrix()
+    describe 'matrix(f)', ->
+      it 'should call the given function with itself as a param', ->
+        matrix = createMatrix [[1, 2]]
+        p = null
+        matrix (param) -> p = param
+        expect(p ).to.eql matrix
+        expect(p() ).to.eql matrix()
+
+  describe 'Getting dimensions', ->
+    describe 'numOfRowsOf(matrix)', ->
+      {numOfRowsOf} = matrixy
+      it 'should return the number of rows in a matrix', ->
+        n = numOfRowsOf a2x3
+        expect(n).to.equal 2
+
+    describe 'numOfColsOf(matrix)', ->
+      {numOfColsOf} = matrixy
+      it 'should return the number of columns in a matrix', ->
+        n = numOfColsOf a2x3
+        expect(n).to.equal 3
+
+    describe 'sizeOf(matrix)', ->
+      {sizeOf} = matrixy
+      it 'should return a string describing the size of a matrix', ->
+        size = sizeOf a2x3
+        expect(size).to.equal '2x3'
+
+    describe 'getDimensionsOf(matrix)', ->
+      {getDimensionsOf} = matrixy
+      it 'should return an array describing the size of a matrix', ->
+        size = getDimensionsOf a2x3
+        expect(size).to.eql [2, 3]
+
+  describe 'Detecting triangular matrices', ->
+    describe 'isLowerTriangular(matrix)', ->
+      {isLowerTriangular} = matrixy
+      it 'should detect when lower triangular', ->
+        lower = createMatrix [[1, 0]
+                              [3, 4]]
+        expect(isLowerTriangular lower).to.equal yes
+      it 'should detect when not lower triangular', ->
+        lower = createMatrix [[1, 2]
+                              [0, 4]]
+        expect(isLowerTriangular lower).to.equal no
+
+    describe 'isUpperTriangular(matrix)', ->
+      {isUpperTriangular} = matrixy
+      it 'should detect when upper triangular', ->
+        upper = createMatrix [[1, 2]
+                              [0, 4]]
+        expect(isUpperTriangular upper).to.equal yes
+      it 'should detect when not upper triangular', ->
+        upper = createMatrix [[1, 0]
+                              [3, 4]]
+        expect(isUpperTriangular upper).to.equal no
+
+  describe 'LU decomposition', ->
+    {decompose, times} = matrixy
+    squareMatrix = createMatrix [[1, 2]
+                                 [3, 4]]
+    it 'should return {l,u,p} where LU == PA for integer solutions', ->
+      {l, u, p} = decompose squareMatrix
+      lu = l times u
+      pa = p times squareMatrix
+      expect(lu() ).to.eql(pa() )
 
   describe 'copy(matrix)', ->
     {copy} = matrixy
@@ -88,16 +157,6 @@ describe 'matrixy:', ->
         expect(m get(0, 1) ).to.equal 6
 
   describe 'Basic arithmetic:', ->
-    a2x3 = createMatrix [[1, 2, 3]
-                         [4, 5, 6]]
-    b2x3 = createMatrix [[1, 1, 1]
-                         [1, 1, 1]]
-    a2x2 = createMatrix [[1, 2]
-                         [3, 4]]
-    a3x2 = createMatrix [[7, 8]
-                         [9, 10]
-                         [11, 12]]
-
     describe 'Addition', ->
       {plus} = matrixy
       it "should throw an error if the matrices aren't the same size", ->
