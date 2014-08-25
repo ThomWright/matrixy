@@ -21,8 +21,14 @@ t = @
       wrap \
         f1 unwrap(i)
 
+  # (x, x -> x) -> (y, y -> y)
+  lift2: (f1) ->
+    (i1, i2) ->
+      wrap \
+        f1 unwrap(i1), unwrap(i2)
+
   # (x, x -> x) -> y -> y -> y
-  lift2: (f2) ->
+  lift2Infix: (f2) ->
     (i2) ->
       (i1) ->
         wrap \

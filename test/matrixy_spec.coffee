@@ -216,3 +216,17 @@ describe 'matrixy:', ->
       expect(inverted() ).to.almost.eql [[0.75, 0.5, 0.25]
                                          [0.5, 1, 0.5]
                                          [0.25, 0.5, 0.75]], 10
+
+  describe 'Equation solver', ->
+    {solve} = matrixy
+    it 'should solve a matrix equation of the form Ax=b for x', ->
+      A = createMatrix [[1, 1, 1]
+                        [0, 2, 5]
+                        [2, 5, - 1]]
+      b = createMatrix [[6]
+                        [ - 4]
+                        [27]]
+      x = solve A, b
+      expect(x() ).to.eql [[5]
+                           [3]
+                           [ - 2]]

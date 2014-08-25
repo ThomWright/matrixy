@@ -2,7 +2,7 @@ arrayFns = require './arrays'
 {expect} = require 'chai'
 {compose, createLiftFunctions} = require './functional_utils'
 
-{liftInput, lift1, lift2, liftAllOutputs} = createLiftFunctions {
+{liftInput, lift1, lift2, lift2Infix, liftAllOutputs} = createLiftFunctions {
   wrap: (arrays) -> createMatrix arrays
   unwrap: (matrix) -> matrix()
 }
@@ -77,19 +77,21 @@ checkCanMultiply = (a1, a2) ->
       message: "Can't multiply a #{size1} matrix by a #{size2} matrix."
     }
 
-plus = lift2 (a1, a2) ->
+plus = lift2Infix (a1, a2) ->
   checkSizesMatch a1, a2
   arrayFns.add a1, a2
 
-minus = lift2 (a1, a2) ->
+minus = lift2Infix (a1, a2) ->
   checkSizesMatch a1, a2
   arrayFns.subtract a1, a2
 
-times = lift2 (a1, a2) ->
+times = lift2Infix (a1, a2) ->
   checkCanMultiply a1, a2
   arrayFns.multiply a1, a2
 
 decompose = liftAllOutputs arrayFns.decompose
+
+solve = lift2 arrayFns.solve
 
 transpose = lift1 arrayFns.transpose
 
@@ -116,3 +118,4 @@ module.exports =
   decompose: decompose
   transpose: transpose
   invert: invert
+  solve: solve
