@@ -4,6 +4,7 @@ npm-debug.log
 src/*
 test/*
 .travis.yml
+.gitignore
 *.sublime-*
 coffeelint.json
 .codoopts
