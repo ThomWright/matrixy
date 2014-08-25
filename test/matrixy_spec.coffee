@@ -194,3 +194,25 @@ describe 'matrixy:', ->
         expect(result() ).to.eql [[27]
                                   [ - 4]
                                   [6]]
+
+  describe 'transpose()', ->
+    {transpose} = matrixy
+    it 'should transpose a matrix', ->
+      m = createMatrix [[1, 2, 3]
+                        [4, 5, 6]]
+      t = transpose m
+      expect(t() ).to.eql [[1, 4]
+                           [2, 5]
+                           [3, 6]]
+
+  describe 'invert()', ->
+    {invert} = matrixy
+    it 'should invert a matrix', ->
+      invertable = createMatrix [[2, -1, 0]
+                                 [-1, 2, -1]
+                                 [0, -1, 2]]
+      inverted = invert invertable
+
+      expect(inverted() ).to.almost.eql [[0.75, 0.5, 0.25]
+                                         [0.5, 1, 0.5]
+                                         [0.25, 0.5, 0.75]], 10

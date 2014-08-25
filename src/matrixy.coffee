@@ -2,7 +2,7 @@ arrayFns = require './arrays'
 {expect} = require 'chai'
 {compose, createLiftFunctions} = require './functional_utils'
 
-{liftInput, lift2, liftAllOutputs} = createLiftFunctions {
+{liftInput, lift1, lift2, liftAllOutputs} = createLiftFunctions {
   wrap: (arrays) -> createMatrix arrays
   unwrap: (matrix) -> matrix()
 }
@@ -91,6 +91,10 @@ times = lift2 (a1, a2) ->
 
 decompose = liftAllOutputs arrayFns.decompose
 
+transpose = lift1 arrayFns.transpose
+
+invert = lift1 arrayFns.invert
+
 module.exports =
   createMatrix: createMatrix
   createImmutableMatrix: createImmutableMatrix
@@ -110,3 +114,5 @@ module.exports =
   isLowerTriangular: isLowerTriangular
   isUpperTriangular: isUpperTriangular
   decompose: decompose
+  transpose: transpose
+  invert: invert
