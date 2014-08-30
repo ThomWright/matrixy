@@ -9,7 +9,7 @@ t = @
 # @param f [Function]
 # @param g [Function]
 @compose = (f, g) ->
-  ->
+  =>
     args = Array::slice.call arguments
     f g.apply @, args
 
