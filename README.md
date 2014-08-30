@@ -12,17 +12,17 @@ A general-purpose matrix library for NodeJS capable of LU-decomposition and solv
  - **matrixy** - works with Matrices (wrapped 2D arrays)
 
 ```coffeescript
-{matrixy, arrays} = require 'matrixy'
+{Matrixy, Arrays} = require 'matrixy'
 
 fours = [[4, 4]]
 fives = [[5, 5]]
 
 # Arrays API
-{add} = arrays
+{add} = Arrays
 add fours, fives
 
 # Matrixy API
-{createMatrix, plus} = matrixy
+{createMatrix, plus} = Matrixy
 foursM = createMatrix fours
 fivesM = createMatrix fours
 
