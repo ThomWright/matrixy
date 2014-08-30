@@ -29,4 +29,4 @@ fivesM = createMatrix fours
 foursM plus fivesM
 ```
 
-API Docs coming soon...
+[API Docs are in the wiki.](https://github.com/ThomWright/matrixy/wiki)
