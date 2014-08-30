@@ -99,6 +99,9 @@ t = @
  * @return {module:matrixy~setter}
 ###
 @set = (row, col) ->
+  ###*
+   * @namespace module:matrixy~setter
+  ###
   {
     ###*
      * Set to the given value.
