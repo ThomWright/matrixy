@@ -132,19 +132,12 @@ t = @
       return no if arrays[i][j] isnt 0
   return yes
 
-###*
- * @callback Number-Number--Number
- * @param {Number} a
- * @param {Number} b
- * @return {Number}
-###
-
 ###
  * Create a new 2D array from a combination of two.
  * @private
  * @param {!Array.<Array.<Number>>} a1
  * @param {!Array.<Array.<Number>>} a2
- * @param {Number-Number--Number} f
+ * @param {function(number, number): number} f
  * @return {Array.<Array.<Number>>}
 ###
 combine = (a1, a2, f) ->
