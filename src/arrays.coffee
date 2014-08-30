@@ -4,14 +4,6 @@
 ###
 
 ###*
- * @typedef LUP
- * @type {object}
- * @property {Array.<Array.<Number>>} l
- * @property {Array.<Array.<Number>>} u
- * @property {Array.<Array.<Number>>} p
-###
-
-###*
  * Internal reference to module.exports.
  * @private
 ###
@@ -105,7 +97,7 @@ t = @
 ###*
  * Get a string representation of the 2D array size.
  * @param {!Array.<Array.<Number>>} arrays
- * @return {string}
+ * @return {String}
 ###
 @getSize = (arrays) ->
   [numOfRows, numOfCols] = t.getDimensions(arrays)
@@ -196,6 +188,14 @@ combine = (a1, a2, f) ->
       for k in [0...t.getNumOfColumns a1 ]
         r[i][j] += a1[i][k] * a2[k][j]
   return r
+
+###*
+ * @typedef module:arrays.LUP
+ * @type {object}
+ * @property {Array.<Array.<Number>>} l - Lower triangular matrix.
+ * @property {Array.<Array.<Number>>} u - Upper triangular matrix.
+ * @property {Array.<Array.<Number>>} p - Permutation matrix.
+###
 
 ###*
  * Decompose this 2D array into lower and upper triangular 2D arrays.
