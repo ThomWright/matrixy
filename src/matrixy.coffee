@@ -7,7 +7,7 @@ arrayFns = require './arrays'
 {expect} = require 'chai'
 {compose, createLiftFunctions} = require './functional_utils'
 
-###*
+###
  * Internal reference to module.exports.
  * @private
 ###
@@ -180,7 +180,7 @@ t = @
 ###
 @innerArraysOf = liftInput (arrays) -> arrays
 
-###*
+###
  * @private
  * @param  {Array.<Array.<Number>>} a1
  * @param  {Array.<Array.<Number>>} a2
@@ -190,7 +190,7 @@ checkSizesMatch = (a1, a2) ->
   size2 = arrayFns.getSize a2
   expect(size1, 'Matrix size').to.equal size2
 
-###*
+###
  * @private
  * @param  {Array.<Array.<Number>>} a1
  * @param  {Array.<Array.<Number>>} a2

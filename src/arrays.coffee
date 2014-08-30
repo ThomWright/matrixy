@@ -3,7 +3,7 @@
  * @module arrays
 ###
 
-###*
+###
  * Internal reference to module.exports.
  * @private
 ###
@@ -139,7 +139,7 @@ t = @
  * @return {Number}
 ###
 
-###*
+###
  * Create a new 2D array from a combination of two.
  * @private
  * @param {!Array.<Array.<Number>>} a1
