@@ -1,6 +1,7 @@
 ###*
  * @example
- * {matrixy,  arrays} = require 'matrixy' # CoffeeScript
+ * {Matrixy,  Arrays} = require 'matrixy' # CoffeeScript
+ * {createMatrix} = Matrixy # CoffeeScript
  * @module index
 ###
 
