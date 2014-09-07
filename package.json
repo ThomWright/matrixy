@@ -1,41 +1,44 @@
 {
-  "name"            : "matrixy",
-  "version"         : "0.0.2",
-  "description"     : "A general-purpose matrix library capable of LU-decomposition and solving equations of the form Ax=b.",
-  "main"            : "lib/index.js",
-  "directories"     : {
-    "test"          : "test"
+  "name": "matrixy",
+  "version": "0.0.2",
+  "description": "A general-purpose matrix library capable of LU-decomposition and solving equations of the form Ax=b.",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
   },
-  "dependencies"    : {
-    "chai"          : "~1.9"
+  "dependencies": {
+    "chai": "~1.9"
   },
-  "devDependencies" : {
-    "mocha"         : "~1.21",
-    "chai"          : "~1.9",
-    "chai-stats"    : "~0.3",
-    "coffee-script" : "~1.7",
-    "coffeelint"    : "~1.5",
-    "jsdoc"         : "~3"
+  "devDependencies": {
+    "chai": "~1.9",
+    "chai-stats": "~0.3",
+    "coffee-script": "~1.7",
+    "coffeelint": "~1.5",
+    "jsdoc": "~3",
+    "mocha": "~1.21",
+    "rimraf": "^2.2.8"
   },
-  "scripts"         : {
-    "prepublish"    : "cake build && cake doc",
-    "pretest"       : "coffeelint src/*",
-    "test"          : "cake test"
+  "scripts": {
+    "prepublish": "cake build && cake doc",
+    "pretest": "coffeelint src/*",
+    "test": "cake test"
   },
-  "repository"      : {
-    "type"          : "git",
-    "url"           : "http://github.com/ThomWright/matrixy"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ThomWright/matrixy"
   },
-  "keywords"        : [
+  "keywords": [
     "matrix",
     "matrices",
     "LU",
-    "decomposition"
+    "decomposition",
+    "simultaneous",
+    "equations"
   ],
-  "author"          : "Thom Wright",
-  "license"         : "MIT",
-  "bugs"            : {
-    "url"           : "http://github.com/ThomWright/matrixy/issues"
+  "author": "Thom Wright",
+  "license": "MIT",
+  "bugs": {
+    "url": "http://github.com/ThomWright/matrixy/issues"
   },
-  "homepage"        : "http://github.com/ThomWright/matrixy"
+  "homepage": "http://github.com/ThomWright/matrixy"
 }
