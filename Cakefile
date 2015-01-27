@@ -42,7 +42,7 @@ mocha = (options, callback) ->
 
 task 'build', 'compile source', -> build()
 
-task 'doc', 'create documentation', -> doc()
+task 'doc', 'create documentation', -> build callback: -> doc()
 
 task 'watch', 'compile and watch', -> build watch: true
 
