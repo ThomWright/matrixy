@@ -164,7 +164,7 @@ describe 'Array Functions:', ->
     threeByTwo = [[1, 2]
                   [3, 4]
                   [5, 6]]
-    describe 'add', ->
+    describe 'Addition', ->
       {add} = arrays
       it 'should add two 2x3 matrices', ->
         expect(add a2x3, a2x3 ).to.eql [[2, 4, 6]
@@ -178,16 +178,29 @@ describe 'Array Functions:', ->
 
     describe 'Multiplication', ->
       {multiply} = arrays
+      threeByThree = [[0, 0, 1]
+                      [0, 1, 0]
+                      [1, 0, 0]]
       it 'should multiply a 3x3 by a 3x1 matrix to form a 3x1 matrix', ->
-        threeByThree = [[0, 0, 1]
-                        [0, 1, 0]
-                        [1, 0, 0]]
         threeByOne = [[6]
                       [ - 4]
                       [27]]
         expect(multiply threeByThree, threeByOne ).to.eql [[27]
                                                            [ - 4]
                                                            [6]]
+
+      it 'should multiply a matrix by a constant', ->
+        expect(multiply threeByThree, 3).to.eql [[0, 0, 3]
+                                                 [0, 3, 0]
+                                                 [3, 0, 0]]
+
+      it 'should multiply a constant by a matrix', ->
+        expect(multiply 3, threeByThree).to.eql [[0, 0, 3]
+                                                 [0, 3, 0]
+                                                 [3, 0, 0]]
+
+      it 'should multiply a constant by a constant', ->
+        expect(multiply 3, 3).to.eql [[9]]
 
   describe 'LU Decomposition', ->
     {decompose, multiply} = arrays

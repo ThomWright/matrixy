@@ -2,7 +2,7 @@ matrixy = require '../src/matrixy'
 {createMatrix} = matrixy
 
 a2x3 = createMatrix [[1, 2, 3]
-                         [4, 5, 6]]
+                     [4, 5, 6]]
 b2x3 = createMatrix [[1, 1, 1]
                      [1, 1, 1]]
 a2x2 = createMatrix [[1, 2]
@@ -194,6 +194,13 @@ describe 'matrixy:', ->
         expect(result() ).to.eql [[27]
                                   [ - 4]
                                   [6]]
+
+      it 'should multiply a matrix by an integer', ->
+        ones = createMatrix [[1, 1]
+                             [1, 1]]
+        result = ones times 2
+        expect(result() ).to.eql [[2, 2]
+                                  [2, 2]]
 
   describe 'transpose()', ->
     {transpose} = matrixy

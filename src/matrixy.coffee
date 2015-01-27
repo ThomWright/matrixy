@@ -15,7 +15,7 @@ t = @
 
 {liftInput, lift1, lift2, lift2Infix, liftAllOutputs} = createLiftFunctions {
   wrap: (arrays) -> t.createMatrix arrays
-  unwrap: (matrix) -> matrix()
+  unwrap: (matrix) -> if (typeof matrix isnt 'number') then matrix() else matrix
 }
 
 ###*
@@ -242,7 +242,7 @@ checkCanMultiply = (a1, a2) ->
  * @return {module:matrixy.MatrixOperation}
 ###
 @times = lift2Infix (a1, a2) ->
-  checkCanMultiply a1, a2
+  if (typeof a2 isnt 'number') then checkCanMultiply a1, a2
   arrayFns.multiply a1, a2
 
 ###*

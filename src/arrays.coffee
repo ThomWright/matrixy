@@ -172,8 +172,11 @@ combine = (a1, a2, f) ->
  * @return {Array.<Array.<Number>>}
 ###
 @multiply = (a1, a2) ->
-  r = new Array(t.getNumOfRows a1 )
+  if (typeof a1 is 'number' and typeof a2 is 'number') then return [[a1 * a2]]
+  if (typeof a1 is 'number') then return map ((e) -> e * a1), a2
+  if (typeof a2 is 'number') then return map ((e) -> e * a2), a1
 
+  r = new Array(t.getNumOfRows a1 )
   for i in [0...t.getNumOfRows a1 ]
     r[i] = new Array(t.getNumOfColumns a2 )
     for j in [0...t.getNumOfColumns a2 ]
@@ -318,3 +321,13 @@ solve = ({l, u, p} , b) ->
     columns[i] = solve({l, u, p}, columnOfIdentity)[0]
 
   t.transpose columns
+
+map = (f, arrays) ->
+  r = new Array(t.getNumOfRows arrays )
+
+  for i in [0...t.getNumOfRows arrays ]
+    r[i] = new Array(t.getNumOfColumns arrays )
+    for j in [0...t.getNumOfColumns arrays ]
+      r[i][j] = f arrays[i][j]
+
+  return r
