@@ -166,9 +166,9 @@ combine = (a1, a2, f) ->
   combine a1, a2, (n1, n2) -> n1 - n2
 
 ###*
- * Multiple two 2D arrays and return the result.
- * @param {Array.<Array.<Number>>} a1
- * @param {Array.<Array.<Number>>} a2
+ * Multiply two 2D arrays and return the result.
+ * @param {Array.<Array.<Number>>|Number} a1
+ * @param {Array.<Array.<Number>>|Number} a2
  * @return {Array.<Array.<Number>>}
 ###
 @multiply = (a1, a2) ->

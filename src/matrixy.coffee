@@ -238,7 +238,7 @@ checkCanMultiply = (a1, a2) ->
  * c = a(times(b)); // JavaScript
  * c = a times b # CoffeeScript
  * @function
- * @param  {module:matrixy.Matrix} matrix
+ * @param  {module:matrixy.Matrix|Number} matrix
  * @return {module:matrixy.MatrixOperation}
 ###
 @times = lift2Infix (a1, a2) ->
