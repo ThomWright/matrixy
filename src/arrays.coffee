@@ -167,8 +167,8 @@ combine = (a1, a2, f) ->
 
 ###*
  * Multiply two 2D arrays and return the result.
- * @param {Array.<Array.<Number>>|Number} a1
- * @param {Array.<Array.<Number>>|Number} a2
+ * @param {(Array.<Array.<Number>>|Number)} a1
+ * @param {(Array.<Array.<Number>>|Number)} a2
  * @return {Array.<Array.<Number>>}
 ###
 @multiply = (a1, a2) ->
