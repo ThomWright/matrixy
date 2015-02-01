@@ -30,3 +30,5 @@ foursM plus fivesM
 ```
 
 [API Docs are in the wiki.](https://github.com/ThomWright/matrixy/wiki)
+
+[Background blog post on the ideas behind the design of the *matrixy* API.](http://thomwright.co.uk/2014/08/23/beautiful-apis-coffeescript/)
