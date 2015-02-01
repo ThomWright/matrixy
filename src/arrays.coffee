@@ -325,6 +325,14 @@ solve = ({l, u, p} , b) ->
 
   t.transpose columns
 
+###*
+ * Is it possible to invert the given 2D array?
+ * @param {Array.<Array.<Number>>} arrays
+ * @return {Boolean}
+###
+@isInvertible = (arrays) ->
+  return t.isSquare(arrays) and t.determinant(arrays) isnt 0
+
 map = (f, arrays) ->
   r = new Array(t.getNumOfRows arrays )
 

@@ -212,17 +212,23 @@ describe 'matrixy:', ->
                            [2, 5]
                            [3, 6]]
 
-  describe 'invert()', ->
-    {invert} = matrixy
-    it 'should invert a matrix', ->
-      invertable = createMatrix [[2, -1, 0]
-                                 [-1, 2, -1]
-                                 [0, -1, 2]]
-      inverted = invert invertable
+  describe 'Inversion', ->
+    invertible = createMatrix [[2, -1, 0]
+                               [-1, 2, -1]
+                               [0, -1, 2]]
+    describe 'invert()', ->
+      {invert} = matrixy
+      it 'should invert a matrix', ->
+        inverted = invert invertible
+        expect(inverted() ).to.almost.eql [[0.75, 0.5, 0.25]
+                                           [0.5, 1, 0.5]
+                                           [0.25, 0.5, 0.75]], 10
 
-      expect(inverted() ).to.almost.eql [[0.75, 0.5, 0.25]
-                                         [0.5, 1, 0.5]
-                                         [0.25, 0.5, 0.75]], 10
+    describe 'isInvertible', ->
+      {isInvertible} = matrixy
+      it 'should return true for an invertible matrix', ->
+        expect(isInvertible invertible).to.be.true
+
 
   describe 'Equation solver', ->
     {solve} = matrixy

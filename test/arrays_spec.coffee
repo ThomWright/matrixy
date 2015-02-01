@@ -267,16 +267,28 @@ describe 'Array Functions:', ->
                                    [2, 5]
                                    [3, 6]]
 
-  describe 'invert()', ->
-    {invert} = arrays
-    it 'should invert a matrix', ->
-      invertable = [[2, -1, 0]
-                    [-1, 2, -1]
-                    [0, -1, 2]]
+  describe 'Inversion', ->
+    invertible = [[2, -1, 0]
+                  [-1, 2, -1]
+                  [0, -1, 2]]
 
-      expect(invert invertable).to.almost.eql [[0.75, 0.5, 0.25]
-                                               [0.5, 1, 0.5]
-                                               [0.25, 0.5, 0.75]], 10
+    describe 'invert()', ->
+      {invert} = arrays
+      it 'should invert a matrix', ->
+        expect(invert invertible).to.almost.eql [[0.75, 0.5, 0.25]
+                                                 [0.5, 1, 0.5]
+                                                 [0.25, 0.5, 0.75]], 10
+
+    describe 'isInvertible()', ->
+      {isInvertible} = arrays
+      it 'should return false for a non-square matrix', ->
+        expect(isInvertible [[1, 2]]).to.be.false
+
+      it 'should return false for a matrix whose determinant is zero', ->
+        expect(isInvertible [[0]]).to.be.false
+
+      it 'should return true for an invertible matrix', ->
+        expect(isInvertible invertible).to.be.true
 
   describe 'determinant', ->
     {determinant} = arrays

@@ -290,6 +290,14 @@ checkCanMultiply = (a1, a2) ->
 @invert = lift1 arrayFns.invert
 
 ###*
+ * Is it possible to invert the given 2D array?
+ * @function
+ * @param {module:matrixy.Matrix} matrix
+ * @return {Boolean}
+###
+@isInvertible = lift1 arrayFns.isInvertible
+
+###*
  * Return the determinant of the given {@link module:matrixy.Matrix}.
  * @function
  * @param {module:matrixy.Matrix} matrix - Square matrix
