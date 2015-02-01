@@ -12,7 +12,7 @@
   "devDependencies": {
     "chai": "~1.10",
     "chai-stats": "~0.3",
-    "coffee-script": "~1.8",
+    "coffee-script": "~1.9",
     "coffeelint": "~1.8",
     "jsdoc": "~3",
     "mocha": "~2.1",
