@@ -187,6 +187,15 @@ combine = (a1, a2, f) ->
   return r
 
 ###*
+ * Divide a1 by a2 and return the result.
+ * @param {(Array.<Array.<Number>>|Number)} a1
+ * @param {(Array.<Array.<Number>>|Number)} a2
+ * @return {Array.<Array.<Number>>}
+###
+@divide = (a1, a2) ->
+  t.multiply a1, t.invert a2
+
+###*
  * @typedef module:arrays.LUP
  * @type {object}
  * @property {Array.<Array.<Number>>} l - Lower triangular matrix.

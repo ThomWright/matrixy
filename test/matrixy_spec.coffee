@@ -202,6 +202,16 @@ describe 'matrixy:', ->
         expect(result() ).to.eql [[2, 2]
                                   [2, 2]]
 
+    describe 'Division:', ->
+      {dividedBy} = matrixy
+      invertible = createMatrix [[4, 3]
+                                 [3, 2]]
+      describe 'dividing a matrix by itself', ->
+        it 'should return the identiy matrix', ->
+          identity = invertible dividedBy invertible
+          expect(identity() ).to.eql [[1, 0]
+                                      [0, 1]]
+
   describe 'transpose()', ->
     {transpose} = matrixy
     it 'should transpose a matrix', ->

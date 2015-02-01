@@ -247,6 +247,17 @@ checkCanMultiply = (a1, a2) ->
   arrayFns.multiply a1, a2
 
 ###*
+ * Infix function to divide a Matrix by another
+ * @example
+ * c = a(dividedBy(b)); // JavaScript
+ * c = a dividedBy b # CoffeeScript
+ * @function
+ * @param  {module:matrixy.Matrix} matrix
+ * @return {module:matrixy.MatrixOperation}
+###
+@dividedBy = lift2Infix arrayFns.divide
+
+###*
  * @typedef module:matrixy.LUP
  * @type {object}
  * @property {module:matrixy.Matrix} l - Lower triangular matrix.

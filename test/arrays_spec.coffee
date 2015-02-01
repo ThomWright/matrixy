@@ -202,6 +202,16 @@ describe 'Array Functions:', ->
       it 'should multiply a constant by a constant', ->
         expect(multiply 3, 3).to.eql [[9]]
 
+    describe 'Division:', ->
+      {divide} = arrays
+      invertible = [[4, 3]
+                    [3, 2]]
+
+      describe 'dividing a matrix by itself', ->
+        it 'should return the identiy matrix', ->
+          expect(divide invertible, invertible).to.eql [[1, 0]
+                                                        [0, 1]]
+
   describe 'LU Decomposition', ->
     {decompose, multiply} = arrays
     squareMatrix = [[1, 2]
