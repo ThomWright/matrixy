@@ -14,8 +14,9 @@ arrayFns = require './arrays'
 t = @
 
 {liftInput, lift1, lift2, lift2Infix, liftAllOutputs} = createLiftFunctions {
-  wrap: (arrays) -> t.createMatrix arrays
-  unwrap: (matrix) -> if (typeof matrix isnt 'number') then matrix() else matrix
+  # only wrap/unwrap if the correct type, else just let it pass through
+  wrap: (arrays) -> if (Array.isArray(arrays)) then t.createMatrix arrays else arrays
+  unwrap: (matrix) -> if (typeof matrix is 'function') then matrix() else matrix
 }
 
 ###*
@@ -287,3 +288,11 @@ checkCanMultiply = (a1, a2) ->
  * @return {module:matrixy.Matrix} Inverted matrix.
 ###
 @invert = lift1 arrayFns.invert
+
+###*
+ * Return the determinant of the given {@link module:matrixy.Matrix}.
+ * @function
+ * @param {module:matrixy.Matrix} matrix - Square matrix
+ * @return {Number}
+###
+@determinantOf = lift1 arrayFns.determinant

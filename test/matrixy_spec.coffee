@@ -237,3 +237,12 @@ describe 'matrixy:', ->
       expect(x() ).to.eql [[5]
                            [3]
                            [ - 2]]
+
+  describe 'determinant()', ->
+    {determinantOf} = matrixy
+    it 'should find the determinant of matrix', ->
+      m = createMatrix [[1, 0, 2, -1]
+                        [3, 0, 0, 5]
+                        [2, 1, 4, -3]
+                        [1, 0, 5, 0]]
+      expect(determinantOf m ).to.equal 30

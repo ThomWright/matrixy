@@ -277,3 +277,12 @@ describe 'Array Functions:', ->
       expect(invert invertable).to.almost.eql [[0.75, 0.5, 0.25]
                                                [0.5, 1, 0.5]
                                                [0.25, 0.5, 0.75]], 10
+
+  describe 'determinant', ->
+    {determinant} = arrays
+    it 'should find the determinant of a matrix', ->
+      m = [[1, 0, 2, -1]
+           [3, 0, 0, 5]
+           [2, 1, 4, -3]
+           [1, 0, 5, 0]]
+      expect(determinant m ).to.equal 30

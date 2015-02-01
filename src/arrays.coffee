@@ -52,6 +52,7 @@ t = @
  * @return {Boolean}
 ###
 @isEmpty = (arrays) ->
+  expect(arrays).to.satisfy(Array.isArray, 'parameter should be an array')
   if arrays.length is 0 or arrays[0].length is 0
     yes
   else
@@ -213,6 +214,7 @@ combine = (a1, a2, f) ->
   l = t.createIdentity size
   u = t.copy arrays
   p = t.createIdentity size
+  numOfSwaps = 0
 
   ###
   Gaussian elimination w / partial pivoting
@@ -234,6 +236,7 @@ combine = (a1, a2, f) ->
 
     # row swap
     if pivotRowIndex isnt i
+      numOfSwaps++
       for e in [i...size] # swap rows in u
         [u[i][e], u[pivotRowIndex][e]] = [u[pivotRowIndex][e], u[i][e]]
       for e in [0...i] # swap rows in l
@@ -246,7 +249,7 @@ combine = (a1, a2, f) ->
       for k in [i...size] # for each element in row in sub-square
         u[j][k] -= l[j][i] * u[i][k] # row = row - factor*topRowInSubset
 
-  return {l: l, u: u, p: p }
+  return {l: l, u: u, p: p, numOfSwaps: numOfSwaps}
 
 ###*
  * Solve the matrix equation Ax = b for x with matrix size N.
@@ -331,3 +334,24 @@ map = (f, arrays) ->
       r[i][j] = f arrays[i][j]
 
   return r
+
+###*
+ * Return the determinant of the given 2D array.
+ * @param {Array.<Array.<Number>>} arrays - Square matrix
+ * @return {Number}
+###
+@determinant = (arrays) ->
+  {l, u, numOfSwaps} = t.decompose arrays
+  diagonalProduct(l) * diagonalProduct(u) * (if isEven numOfSwaps then 1 else -1)
+
+diagonalProduct = (triangularArrays) ->
+  size = t.getNumOfRows triangularArrays
+
+  r = 1
+  for i in [0...size]
+    r *= triangularArrays[i][i]
+
+  return r
+
+isEven = (number) ->
+  number % 2 == 0
