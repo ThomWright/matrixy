@@ -295,4 +295,6 @@ checkCanMultiply = (a1, a2) ->
  * @param {module:matrixy.Matrix} matrix - Square matrix
  * @return {Number}
 ###
-@determinantOf = lift1 arrayFns.determinant
+@determinantOf = lift1 (arrays) ->
+  expect(arrays).to.satisfy(arrayFns.isSquare, 'Can only find determinant of a square matrix')
+  arrayFns.determinant arrays

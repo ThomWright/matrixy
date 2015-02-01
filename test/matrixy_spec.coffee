@@ -246,3 +246,6 @@ describe 'matrixy:', ->
                         [2, 1, 4, -3]
                         [1, 0, 5, 0]]
       expect(determinantOf m ).to.equal 30
+
+    it 'should throw an exception for a non-square matrix', ->
+      expect(-> determinantOf a2x3 ).to.throw /.*square.*/
