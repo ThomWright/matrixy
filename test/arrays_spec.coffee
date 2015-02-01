@@ -268,16 +268,14 @@ describe 'Array Functions:', ->
                                    [3, 6]]
 
   describe 'Inversion', ->
-    invertible = [[2, -1, 0]
-                  [-1, 2, -1]
-                  [0, -1, 2]]
+    invertible = [[4, 3]
+                   [3, 2]]
 
     describe 'invert()', ->
       {invert} = arrays
       it 'should invert a matrix', ->
-        expect(invert invertible).to.almost.eql [[0.75, 0.5, 0.25]
-                                                 [0.5, 1, 0.5]
-                                                 [0.25, 0.5, 0.75]], 10
+        expect(invert invertible).to.eql [[-2, 3]
+                                          [3, -4]]
 
     describe 'isInvertible()', ->
       {isInvertible} = arrays

@@ -318,12 +318,14 @@ solve = ({l, u, p} , b) ->
   identity = t.createIdentity size
   {l, u, p} = t.decompose arrays
 
-  columns = new Array()
+  inversion = t.createBlank size
   for i in [0...size]
     columnOfIdentity = t.transpose [identity[i]]
-    columns[i] = solve({l, u, p}, columnOfIdentity)[0]
+    solution = solve({l, u, p}, columnOfIdentity)
+    for j in [0...size]
+      inversion[j][i] = solution[j][0]
 
-  t.transpose columns
+  return inversion
 
 ###*
  * Is it possible to invert the given 2D array?
