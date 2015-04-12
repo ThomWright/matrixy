@@ -1,8 +1,8 @@
-Matrixy
-=======
 [![Build Status](https://travis-ci.org/ThomWright/matrixy.svg?branch=master)](https://travis-ci.org/ThomWright/matrixy)
 [![Dependency Status](https://david-dm.org/ThomWright/matrixy.svg?theme=shields.io)](https://david-dm.org/ThomWright/matrixy)
 [![devDependency Status](https://david-dm.org/ThomWright/matrixy/dev-status.svg?theme=shields.io)](https://david-dm.org/ThomWright/matrixy#info=devDependencies)
+
+<img src="imgs/logo.png" width="400" />
 
 A general-purpose matrix library for NodeJS capable of LU-decomposition and solving equations of the form Ax=b.
 
