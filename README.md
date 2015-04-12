@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.org/ThomWright/matrixy.svg?branch=master)](https://travis-ci.org/ThomWright/matrixy)
-[![Dependency Status](https://david-dm.org/ThomWright/matrixy.svg?theme=shields.io)](https://david-dm.org/ThomWright/matrixy)
-[![devDependency Status](https://david-dm.org/ThomWright/matrixy/dev-status.svg?theme=shields.io)](https://david-dm.org/ThomWright/matrixy#info=devDependencies)
+[![Build Status](https://img.shields.io/travis/ThomWright/matrixy.svg)](https://travis-ci.org/ThomWright/matrixy)
+[![npm](https://img.shields.io/npm/v/matrixy.svg)](https://www.npmjs.com/package/matrixy)
+[![Dependency Status](https://img.shields.io/david/ThomWright/matrixy.svg)](https://david-dm.org/ThomWright/matrixy)
+[![devDependency Status](https://img.shields.io/david/dev/ThomWright/matrixy.svg)](https://david-dm.org/ThomWright/matrixy#info=devDependencies)
 
 <img src="imgs/logo.png" width="400" />
 
