@@ -1,4 +1,12 @@
 language: node_js
 node_js:
-  - "0.11"
-  - "0.10"
+- '0.11'
+- '0.10'
+deploy:
+  provider: npm
+  email: npm@thomwright.co.uk
+  api_key:
+    secure: cqG3FoKup2j//TORmYjuK3bxUAjNalNawFUB4to4+5xFkzC5Ea3N6Jq56Lx9/+NM6lOR2Aw0ZBL+mbpq4lBNwL+xb5Sslxe9Slp3ruhx2ru/qRHF8+cEXJKynaLa6pl6tEbIrgOkH6zKeWbimkCBLspShfrvAQoJpos+VeynV4M=
+  on:
+    tags: true
+    repo: ThomWright/matrixy
