@@ -14,19 +14,19 @@ A general-purpose matrix library for NodeJS capable of LU-decomposition and solv
 ```coffeescript
 {Matrixy, Arrays} = require 'matrixy'
 
+# Arrays API
+{add} = Arrays
 fours = [[4, 4]]
 fives = [[5, 5]]
 
-# Arrays API
-{add} = Arrays
-add fours, fives
+result = add fours, fives
 
 # Matrixy API
 {createMatrix, plus} = Matrixy
-foursM = createMatrix fours
-fivesM = createMatrix fours
+fours = createMatrix [[4, 4]]
+fives = createMatrix [[5, 5]]
 
-foursM plus fivesM
+result = fours plus fives
 ```
 
 [API Docs are in the wiki.](https://github.com/ThomWright/matrixy/wiki)
