@@ -4,6 +4,7 @@ npm-debug.log
 src/*
 test/*
 temp/*
+imgs/*
 .travis.yml
 .gitignore
 *.sublime-*
