@@ -168,7 +168,7 @@ describe 'Array Functions:', ->
       {add} = arrays
       it 'should add two 2x3 matrices', ->
         expect(add a2x3, a2x3 ).to.eql [[2, 4, 6]
-                                                    [8, 10, 12]]
+                                        [8, 10, 12]]
 
     describe 'Subtraction', ->
       {subtract} = arrays
@@ -240,14 +240,16 @@ describe 'Array Functions:', ->
       {isUpperTriangular} = arrays
       {u} = decompose fiveMatrix
       expect(isUpperTriangular u).to.be.true
-    it 'should throw an exception for non-square matrices', ->
-      expect(-> decompose [[1, 2]] ).to.throw "LU Decomposition not implemented for non-square 2D arrays."
 
     describe 'Singular matrix handling', ->
       singularMatrix = [[0, 1]
                         [0, 1]]
       it 'should throw an exception for singular matrices', ->
-        expect(-> decompose singularMatrix ).to.throw "Singular matrix"
+        expect(-> decompose singularMatrix ).to.throw {
+                                                        name: 'SingularMatrixException',
+                                                        message: 'Singular matrix'
+                                                        cause: singularMatrix
+                                                      }
       it 'should throw an exception which contains the problem matrix', ->
         try
           decompose singularMatrix

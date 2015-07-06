@@ -178,7 +178,11 @@ describe 'matrixy:', ->
     describe 'Multiplication', ->
       {times} = matrixy
       it "should throw an error if the number of rows/columns don't match", ->
-        expect(-> a2x3 times a2x2 ).to.throw "Can't multiply a 2x3 matrix by a 2x2 matrix."
+        expect(-> a2x3 times a2x2 ).to.throw {
+                                               name: 'IllegalArgumentException'
+                                               message: "Can't multiply a 2x3 matrix by a 2x2 matrix."
+                                             }
+
       it 'should multiply two matrices of different sizes', ->
         result = a2x3 times a3x2
         expect(result() ).to.eql [[ 58, 64]
