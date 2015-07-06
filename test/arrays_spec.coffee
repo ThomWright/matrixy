@@ -255,6 +255,12 @@ describe 'Array Functions:', ->
           expect(error).to.have.ownProperty 'cause'
           expect(error.cause).to.eql singularMatrix
 
+    it 'should handle negative numbers', ->
+      m = [[0, -1]
+           [-1, 1]]
+      {l, u, p} = decompose m
+      expect(multiply l, u ).to.almost.eql(multiply p, m, 14)
+
   describe 'Equation solver', ->
     {solve} = arrays
     it 'should solve a matrix equation of the form Ax=b for x', ->

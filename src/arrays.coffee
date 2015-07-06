@@ -233,8 +233,9 @@ combine = (a1, a2, f) ->
     pivotRowIndex = i
     maxFirstElement = u[i][i]
     for r in [i...size] # for rows in sub-square
-      if u[r][i] > maxFirstElement
-        maxFirstElement = u[r][i]
+      first = Math.abs u[r][i]
+      if first > maxFirstElement
+        maxFirstElement = first
         pivotRowIndex = r
     if maxFirstElement is 0
       throw {
