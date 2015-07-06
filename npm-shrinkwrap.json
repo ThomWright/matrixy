@@ -1,6 +1,6 @@
 {
   "name": "matrixy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "dependencies": {
     "chai": {
       "version": "3.0.0",
