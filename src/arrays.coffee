@@ -1,3 +1,6 @@
+chai = require('chai')
+expect = chai.expect
+
 ###*
  * API for dealing with matrices as simple 2D arrays.
  * @module arrays

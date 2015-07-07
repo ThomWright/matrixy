@@ -1,3 +1,6 @@
+chai = require('chai')
+expect = chai.expect
+
 ###*
  * API for dealing with matrices as wrapped functions.
  * @module matrixy
