@@ -1,5 +1,4 @@
-chai = require('chai')
-expect = chai.expect
+{expect} = require('chai')
 
 ###*
  * API for dealing with matrices as wrapped functions.
