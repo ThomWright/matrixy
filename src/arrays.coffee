@@ -16,11 +16,12 @@ t = @
 @createIdentity = (size) ->
   if size is 0
     return [[]]
-  arrays = new Array(size)
+  idnetity = new Array(size)
   for i in [0...size]
-    arrays[i] = new Array(size)
+    idnetity[i] = new Array(size)
     for j in [0...size]
-      arrays[i][j] = if i is j then 1 else 0
+      idnetity[i][j] = if i is j then 1 else 0
+  return idnetity
 
 ###*
  * @param {!Integer} numOfRows
@@ -30,11 +31,12 @@ t = @
 @createBlank = (numOfRows, numOfCols = numOfRows) ->
   if numOfRows is 0 or numOfCols is 0
     return [[]]
-  b = new Array(numOfRows)
+  blank = new Array(numOfRows)
   for i in [0...numOfRows]
-    b[i] = new Array(numOfCols)
+    blank[i] = new Array(numOfCols)
     for j in [0...numOfCols]
-      b[i][j] = 0
+      blank[i][j] = 0
+  return blank
 
 ###*
  * @param {!Array.<Array.<Number>>} arrays - 2D array to copy.
@@ -46,6 +48,7 @@ t = @
     newMatrix[i] = new Array(t.getNumOfColumns arrays)
     for e, j in row
       newMatrix[i][j] = e
+  return newMatrix
 
 ###*
  * @param {!Array.<Array.<Number>>} arrays
@@ -146,6 +149,7 @@ combine = (a1, a2, f) ->
     r[i] = new Array(t.getNumOfColumns a1 )
     for j in [0...t.getNumOfColumns a1]
       r[i][j] = f a1[i][j], a2[i][j]
+  return r
 
 ###*
  * Add two 2D arrays and return the result.
@@ -302,7 +306,7 @@ solve = ({l, u, p} , b) ->
       x[rowIndex][0] -= u[rowIndex][colIndex] * x[colIndex][0]
     x[rowIndex][0] /= u[rowIndex][rowIndex]
 
-  x
+  return x
 
 ###*
  * Return a transposed version of the given 2D array.
@@ -315,6 +319,7 @@ solve = ({l, u, p} , b) ->
     trans[i] = new Array()
     for j in [0...t.getNumOfRows arrays]
       trans[i][j] = arrays[j][i]
+  return trans
 
 ###*
  * Return an inverted version of the given 2D array.
