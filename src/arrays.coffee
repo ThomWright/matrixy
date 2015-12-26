@@ -1,5 +1,3 @@
-{expect} = require('chai')
-
 ###*
  * API for dealing with matrices as simple 2D arrays.
  * @module arrays
@@ -54,7 +52,6 @@ t = @
  * @return {Boolean}
 ###
 @isEmpty = (arrays) ->
-  expect(arrays).to.satisfy(Array.isArray, 'parameter should be an array')
   if arrays.length is 0 or arrays[0].length is 0
     yes
   else
@@ -270,7 +267,6 @@ combine = (a1, a2, f) ->
  * @return {Array.<Array.<Number>>} Nx1
 ###
 @solve = (A, b) ->
-  # TODO assert sizes are correct
   {l, u, p} = t.decompose A
   solve {l, u, p} , b
 
