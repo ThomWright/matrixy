@@ -1,6 +1,6 @@
 {
   "name": "matrixy",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A general-purpose matrix library capable of LU-decomposition and solving equations of the form Ax=b.",
   "main": "lib/index.js",
   "directories": {
